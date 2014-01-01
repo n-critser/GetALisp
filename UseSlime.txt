@@ -1,0 +1,13 @@
+The easiest way to start is M-x slime. 
+
+C-c C-c ( compile a lisp file)
+C-c C-z ( dual view Slime and a lisp file)
+
+(load "hello.lisp")
+
+(load (compile-file "hello.lisp"))
+
+inside REPL: 
+C-c C-l
+
+C-x C-f (start a new file )

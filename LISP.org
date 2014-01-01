@@ -1,0 +1,26 @@
+#+TITLE:LISP.ORG
+#+DATE:2013-12-13
+
+
+* LISP LISTS
+** (list :a 1 :b 2 :c 3) 
+** PLISTS
+*** The thing that makes plists a convenient way to represent the records in a database is the function GETF, which takes a plist and a symbol and returns the value in the plist following the symbol, making a plist a sort of poor man's hash table. Lisp has real hash tables too, but plists are sufficient for your needs here and can more easily be saved to a file, which will come in handy later.
+** GETTING STUFF
+*** CL-USER> (getf (list :a 1 :b 2 :c 3) :a)
+*** 1
+*** CL-USER> (getf (list :a 1 :b 2 :c 3) :c)
+*** 3
+** Selecting Stuff
+*** (remove-if-not #'evenp '(1 2 3 4 5 6 7 8 9 10))
+*** (remove-if-not #'(lambda (x) (= 0 (mod x 2))) '(1 2 3 4 5 6 7 8))    
+**** need a space betwee = 0, =0 is an error
+*** (remove-if-not #' (lambda (cd) (equal (getf cd :artist) "Bad Religion")) *db*)
+* format-read non strings
+** (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
+** (y-or-n-p "Ripped [y/n]: "))) 
+
+* KEYWORD FUNCTIONS 
+** (defun foo (&key a b c) (list a b c))
+*** CL-USER> (foo :a 1 :b 2)
+*** (1 2 NIL)
