@@ -24,3 +24,6 @@
 ** (defun foo (&key a b c) (list a b c))
 *** CL-USER> (foo :a 1 :b 2)
 *** (1 2 NIL)
+** (defun foo (&key a (b 20) (c 30 c-p)) (list a b c c-p))
+*** Supplied.p parameter gives a default value rather than nil to an argument that isn't called.
+

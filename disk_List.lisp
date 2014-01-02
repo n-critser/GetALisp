@@ -55,3 +55,13 @@
 (defun artist-selector (artist)
   #' (lambda (cd) (equal (getf cd :artist) artist)))
 
+;; general query function generator
+(defun where (&key title artist rating (ripped nil ripped-p))
+  #'(lambda (cd)
+      ;; logical and of the arguments
+      (and
+       (if title (equal (getf cd :title) title) t)
+       (if artist (equal (getf cd :artist) artist) t)
+       (if rating (equal (getf cd :rating) rating) t)
+       (if ripped-p (equal (getf cd :ripped) ripped) t))))
+       
