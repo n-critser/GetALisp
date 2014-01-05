@@ -26,4 +26,10 @@
 *** (1 2 NIL)
 ** (defun foo (&key a (b 20) (c 30 c-p)) (list a b c c-p))
 *** Supplied.p parameter gives a default value rather than nil to an argument that isn't called.
+* CHECH_OUT Back Quote <2014-01-05 Sun>
+Comma delimited lists is evaluated by the back quote
+CL-USER> `(1 2 (+ 1 2))
+(1 2 (+ 1 2))
+CL-USER> `(1 2 ,(+ 1 2))
+(1 2 3)
 
