@@ -1,8 +1,71 @@
 #+TITLE:LISP.ORG
 #+DATE:2013-12-13
 
+* LISTS INDEPTH http://www.gigamonkeys.com/book/they-called-it-lisp-for-a-reason-list-processing.html
+** CONS CELLS
+Lists are built by linking together cons cells in a chain. 
+The elements of the list are held in the CARs of the cons 
+cells while the links to subsequent cons cells are held in 
+the CDRs. The last cell in the chain has a CDR of NIL.
 
+This arrangement is by no means unique to Lisp; it's 
+called a singly linked list. However, few languages 
+outside the Lisp family provide such extensive support for this humble data type.
+** List diddling
+CL-USER> (defparameter *list-1* (list 1 2))
+*LIST-1*
+CL-USER> (defparameter *list-2* (list 3 4))
+*LIST-2*
+CL-USER> (defparameter *list-3* (append *list-1* *list-2*))
+*LIST-3*
+CL-USER> *list-3*
+(1 2 3 4)
+CL-USER> (setf (first *list-2*) 0)
+0
+CL-USER> *list-3*
+(1 2 0 4)
+
+*(mapcar #'(lambda (x) (* 2 x)) (list 1 2 3)) ==> (2 4 6)
+*(mapcar #'+ (list 1 2 3) (list 10 20 30)) ==> (11 22 33)*
+* LISP ATOMS
+234    bread    hello   (atoms)
+( 2 3 4) a list of atoms
+2 3 4 (? not a single atom though)
+* LISP SATOMS (SYMBOLIC ATOMS)
+EXAMPLE: bread  dog  shitface
+Terms that s-atoms represent may begin with characters or 
+digits (but if it is a digit then the atom is a number) 
+but may not contain a colon <<:>> or semi-colon <<;>> 
+nor parentheses or spaces. In LISP, parentheses and spaces 
+(blanks) are interpreted as separators of atoms and lists.
+* LISP STRINGS
+Strings literals, as you saw in the previous chapter, are enclosed in double quotes. Within a string a backslash (\) escapes the next character, causing it to be included in the string regardless of what it is. The only two characters that must be escaped within a string are double quotes and the backslash itself. All other characters can be included in a string literal without escaping, regardless of their meaning outside a string. Some example string literals are as follows:
+
+"foo"     ; the string containing the characters f, o, and o.
+"fo\o"    ; the same string
+"fo\\o"   ; the string containing the characters f, o, \, and o.
+"fo\"o"   ; the string containing the characters f, o, ", and o.
+
+* SPECIAL OPS
+When the first element of a list is a symbol naming a special 
+operator, the rest of the expressions are evaluated according 
+to the rule for that operator.
+(if test-form then-form [ else-form ])
+(quote (+ 1 2))
+'(+ 1 2)  == (quote (+ 1 2))
+(let ((x 10)) x)  evaluates to 10 ?
+
+* LISP NUMBERS
+Not all number-like strings, however, are atoms,
+ like those that begin with a letter or in those
+ names in which at least one letter or special 
+symbol appears (with the exception of plus / minus
+ signs and the E in numbers written exponentially):
+** CHECK_OUT examples
+53d45   :( (not a number)
+-334.344 :)  (is a number)
 * LISP LISTS
+** The empty list NIL ()
 ** (list :a 1 :b 2 :c 3) 
 ** PLISTS
 *** The thing that makes plists a convenient way to represent the records in a database is the function GETF, which takes a plist and a symbol and returns the value in the plist following the symbol, making a plist a sort of poor man's hash table. Lisp has real hash tables too, but plists are sufficient for your needs here and can more easily be saved to a file, which will come in handy later.
@@ -20,12 +83,127 @@
 ** (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
 ** (y-or-n-p "Ripped [y/n]: "))) 
 
+* General Functions
+It is important to note that programming in LISP
+means calling functions. Functions are called in
+LISP using the list datatype, whereas LISP always 
+interprets the first element of a list as the name 
+of the function and the following elements as the arguments 
+
+As long as there is no QUOTE mark preceeding the list, 
+LISP will assume that it is dealing with a list containing 
+a function call. i.e ) It will interpret the first element 
+of the list as the name of the function and all further 
+elements as the arguments of the function call.
+
+** CHECK_OUT PARAMETER LIST
+*** oPTIONAL PARAMTERS
+To define a function with optional parameters, after 
+the names of any required parameters, place the symbol 
+&optional followed by the names of the optional parameters. 
+A simple example looks like this:
+
+(defun foo (a b &optional c d) (list a b c d))
+PREDEFINING VALUES
+46 CL-USER> (defun foo (a b &optional (c 10) (d 12)) (list a b c d))                       
+47 STYLE-WARNING: redefining COMMON-LISP-USER::FOO in DEFUN                                
+48 FOO                                                                                     
+49 CL-USER> (foo 1 2 3)                                                                    
+50 (1 2 3 12)     
+
+(defun foo (a b &optional (c 3 c-supplied-p))
+  (list a b c c-supplied-p))
+This gives results like this:
+
+(foo 1 2)   ==> (1 2 3 NIL)
+(foo 1 2 3) ==> (1 2 3 T)
+(foo 1 2 4) ==> (1 2 4 T)
+*** REst pARAMETERS
+(+ 1 2 3 4 5) OR (+ 2 4 4) (+) ALL ACCEPTABLE
+
+If a function includes a &rest parameter, any 
+arguments remaining after values have been doled 
+out to all the required and optional parameters are 
+gathered up into a list that becomes the value of the 
+&rest parameter. Thus, the parameter lists for FORMAT 
+and + probably look something like this:
+
+(defun format (stream string &rest values) ...)
+(defun + (&rest numbers) ...) 
+
+*** keYWORD PARAMETERS
+(defun foo (&key a b c) (list a b c))
+(foo)                ==> (NIL NIL NIL)
+(foo :a 1)           ==> (1 NIL NIL)
+(foo :b 1)           ==> (NIL 1 NIL)
+(foo :c 1)           ==> (NIL NIL 1)
+(foo :a 1 :c 3)      ==> (1 NIL 3)
+64 CL-USER> (foo :b 22)                                                                    
+65          (NIL 22 NIL)    
+66 CL-USER> (defun foo (&key (a 0) (b 0 b-supplied-p) (c (+ a b)))                         
+67              (list a b c b-supplied-p))  
+**** WEIRD SHIT BUT COOL parameter renaming
+Also, if for some reason you want the keyword the caller 
+uses to specify the parameter to be different from the 
+name of the actual parameter, you can replace the parameter 
+name with another list containing the keyword to use when 
+calling the function and the name to be used for the parameter. 
+The following definition of foo:
+
+(defun foo (&key ((:apple a)) ((:box b) 0) ((:charlie c) 0 c-supplied-p))
+  (list a b c c-supplied-p))
+lets the caller call it like this:
+
+(foo :apple 10 :box 20 :charlie 30) ==> (10 20 30 T)  
+*** REQUIRED PARAMETERS
+** CHECK_OUT Format example
+30 CL-USER> (defun verbose-sum (x y)                                                       
+31            "Sum any 2 number and print after message."                                  
+32            (format t "summing ~d and ~d.~%" x y)                                        
+33            (+ x y))    
+
+35 CL-USER> (verbose-sum 2 3)                                                              
+36 summing 2 and 3.                                                                        
+37 5      
+** CHECK_OUT Simple
+(+ 2 3) 
+5
+(+ 2 3 4 5 6 76 8 9 0)
+113
+CL-USER> (/ 3 10)
+3/10
+CL-USER> (/ 3.9 10.2)
+0.38235295
+** CHECK_OUT Nested Function
+(* (+ 1 5) (- 20 10)) 
+60
+
 * KEYWORD FUNCTIONS 
 ** (defun foo (&key a b c) (list a b c))
 *** CL-USER> (foo :a 1 :b 2)
 *** (1 2 NIL)
 ** (defun foo (&key a (b 20) (c 30 c-p)) (list a b c c-p))
 *** Supplied.p parameter gives a default value rather than nil to an argument that isn't called.
+* HIGHER ORDER FUNCTIONS
+ In Lisp, functions are first-class citizens. That means, 
+we can create them just like any other object and we can 
+pass them as arguments to other functions. Such functions 
+taking functions as arguments are called higher-order 
+functions . 
+EXAMPLE: One example is mapcar . mapcar takes a function 
+as its first argument and applies it subsequently to the 
+elements of one or more given lists:
+
+        CL-USER>(mapcar #'say-hello (list "ACCU" 42 "Adam"))
+	("Hello, ACCU" "Hello, 42" "Hello, Adam")
+      
+* MACROS
+The evaluation of a macro form proceeds in two phases: 
+First, the elements of the macro form are passed, unevaluated, 
+to the macro function. Second, the form returned by the macro 
+function--called its expansion--is evaluated according to the 
+normal evaluation rules.
+
 * CHECH_OUT Back Quote <2014-01-05 Sun>
 Comma delimited lists is evaluated by the back quote
 CL-USER> `(1 2 (+ 1 2))
@@ -33,3 +211,66 @@ CL-USER> `(1 2 (+ 1 2))
 CL-USER> `(1 2 ,(+ 1 2))
 (1 2 3)
 
+* EQUALITY
+They are, in order of discrimination, EQ, EQL, EQUAL, and EQUALP.
+(eq x x)  or (eq 3 3) can be true or false depending on implementation
+"what the fuck"
+(eql 1 1) however works like you'd expect respecting type and class 
+for numbers and characters
+
+** EQUAL
+EQUAL loosens the discrimination of EQL to consider 
+lists equivalent if they have the same structure and 
+contents, recursively, according to EQUAL. EQUAL also 
+considers strings equivalent if they contain the same 
+characters. It also defines a looser definition of 
+equivalence than EQL for bit vectors and pathnames, 
+two data types I'll discuss in future chapters. For 
+all other types, it falls back on EQL.
+* STYLE
+** INDENTING !!!
+In SLIME, hitting Tab at the beginning of each 
+line will cause it to be indented appropriately, 
+or you can re-indent a whole expression by 
+positioning the cursor on the opening parenthesis 
+and typing C-M-q. Or you can re-indent the whole 
+body of a function from anywhere within it by typing C-c M-q.
+** COMMENTS
+;;;; Four semicolons are used for a file header comment.
+
+;;; A comment with three semicolons will usually be a paragraph
+;;; comment that applies to a large section of code that follows,
+
+(defun foo (x)
+  (dotimes (i x)
+    ;; Two semicolons indicate this comment applies to the code
+    ;; that follows. Note that this comment is indented the same
+    ;; as the code that follows.
+    (some-function-call)
+    (another i)              ; this comment applies to this line only
+    (and-another)            ; and this is for this line
+    (baz)))
+
+* SBCL COMMANDS
+(sb-ext:quit) ;; QUIT
+(ql:quickload "restas") ;; QUICK LOAD THE "RESTAS" FRAMEWORK
+ $ sbcl --load hello-app.lisp ;; run hello-app.lisp with sbcl
+ $ sbcl ;; just run sbcl 
+* ASDF and Quick-Lisp
+.asd extension.
+Quicklisp and manual installation
+
+We already saw how libraries can be downloaded, 
+installed and loaded with Quicklisp, but what if 
+a library isnât in Quicklisps repository? 
+When you installed QL, it created a directory 
+called quicklisp in your home directory. This 
+is where Quicklisp installs all of the libraries 
+it downloads. Inside it is another directory 
+called local-projects. This directory contains 
+locally installed libraries, that werenât 
+downloaded with Quicklisp. Every ASDF system in 
+local-projects is instantly visible to quicklisp, 
+and it can compile and load that system. That is 
+mighty convenient. That is where we'll be 
+putting all of our projects so that we can load the source.
