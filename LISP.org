@@ -83,6 +83,35 @@ symbol appears (with the exception of plus / minus
 ** (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
 ** (y-or-n-p "Ripped [y/n]: "))) 
 
+* Variables
+** LET -  
+   *LET*
+(let (variable*)
+  body-form*)
+
+(defun foo (x)
+  (format t "Parameter: ~a~%" x)      ; |<------ x is argument 
+  (let ((x 2))                        ; |
+    (format t "Outer LET: ~a~%" x)    ; | |<---- x is 2
+    (let ((x 3))                      ; | |
+      (format t "Inner LET: ~a~%" x)) ; | | |<-- x is 3
+    (format t "Outer LET: ~a~%" x))   ; | |
+  (format t "Parameter: ~a~%" x))     ; |
+** LET*
+   *LET**
+/* (let* ((x 10) (y (+ x 10))) (list x y))
+(10 20)
+
+
+** CLOSURES
+#<CLOSURE (LAMBDA ()) {1006EA6F4B}>
+/* (defparameter *fn* (let ((count 0)) #'(lambda () (setf count (1+ count)))))
+*FN*
+/* (funcall *fn*)
+1
+/* (funcall *fn*)
+2
+
 * General Functions
 It is important to note that programming in LISP
 means calling functions. Functions are called in
@@ -95,6 +124,31 @@ LISP will assume that it is dealing with a list containing
 a function call. i.e ) It will interpret the first element 
 of the list as the name of the function and all further 
 elements as the arguments of the function call.
+** CHECK_OUT Function Objects
+
+CL-USER> (function foo)
+#<Interpreted Function FOO>
+
+In fact, you've already used FUNCTION, but it was in disguise. 
+The syntax #', which you used in Chapter 3, is syntactic sugar 
+for FUNCTION, just the way ' is syntactic sugar for QUOTE.11 
+Thus, you can also get the function object for foo like this:
+
+CL-USER> #'foo
+#<Interpreted Function FOO>
+
+** CHECK_OUT FUNCTION CALLS
+(defun plot (fn min max step)
+  (loop for i from min to max by step do
+        (loop repeat (funcall fn i) do (format t "*"))
+        (format t "~%")))
+
+(apply #'plot plot-data)
+
+** CHECK_OUT Lambda Functions (anonymous)
+(funcall #'(lambda (x y) (+ x y)) 2 3) ==> 5
+((lambda (x y) (+ x y)) 2 3) ==> 5
+
 
 ** CHECK_OUT PARAMETER LIST
 *** oPTIONAL PARAMTERS
@@ -274,3 +328,52 @@ local-projects is instantly visible to quicklisp,
 and it can compile and load that system. That is 
 mighty convenient. That is where we'll be 
 putting all of our projects so that we can load the source.
+* Control-Flow
+** FOR-EACH
+/* (defun print-list (list)
+     (dolist (i list)
+       (format t"item: ~a~%" i)))
+
+PRINT-LIST
+/* (print-list (list 1 2 3))
+item: 1
+item: 2
+item: 3
+NIL
+** IF 
+(defun foo ()
+  (if (test)
+    (do-one-thing)
+    (do-another-thing)))
+/* (if (eq 1 1) (format t "yes") (format t "no"))
+yes
+NIL
+
+** *LOOPS*
+(defun foo ()
+  (dotimes (i 10)
+    (format t "~d. hello~%" i)))
+
+/* (dotimes (i 10)
+            (format t "~d. hello~%" i))
+0. hello
+1. hello
+2. hello
+3. hello
+4. hello
+5. hello
+6. hello
+7. hello
+8. hello
+9. hello
+NIL
+
+/* (dotimes (i 5)
+            (format t "~d. day# ~d~%" i i))
+0. day# 0
+1. day# 1
+2. day# 2
+3. day# 3
+4. day# 4
+NIL
+
