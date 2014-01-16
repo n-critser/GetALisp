@@ -1,0 +1,16 @@
+#+TITLE: AI-gems.org
+#+AUTHOR: n-critser
+
+
+* Norvig-Russell "Artificial Int. a Mod App"
+
+** Agent = architecture + program
+
+*** Autonomy p35
+"...A system is autonomous to the extent that its behavior is determined 
+by its own experience."
+
+System needs just enough initial knowledge to be able to survive 
+and needs to be able to learn from its experiences.
+
+

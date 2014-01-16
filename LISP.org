@@ -471,3 +471,36 @@ NIL
 4. day# 4
 NIL
 
+* FLET and LABELS
+
+** FLET 
+(defun count-versions (dir)
+  (let ((versions (mapcar #'(lambda (x) (cons x 0)) '(2 3 4))))
+    (flet ((count-version (file)
+             (incf (cdr (assoc (major-version (read-id3 file)) versions)))))
+      (walk-directory dir #'count-version :test #'mp3-p))
+    versions))
+
+
+(defun meta-content (url &aux meta-content)
+  (flet ((collect (e name attribute)
+           (when (equal (stp:local-name e) name)
+             (push (stp:attribute-value e attribute)
+                   meta-content))))
+    (stp:do-recursively (e (chtml:parse (drakma:http-request url)
+                                        (cxml-stp:make-builder)))
+      (when (typep e 'stp:element)
+        (collect e "meta" "content")))
+    meta-content))
+
+** LABEL
+(defun collect-leaves (tree)
+  (let ((leaves ()))
+    (labels ((walk (tree)
+               (cond
+                 ((null tree))
+                 ((atom tree) (push tree leaves))
+                 (t (walk (car tree))
+                    (walk (cdr tree))))))
+      (walk tree))
+    (nreverse leaves)))
