@@ -112,6 +112,58 @@ symbol appears (with the exception of plus / minus
 /* (funcall *fn*)
 2
 
+** DEfining
+;; count shouldn't be affected by changes in widget code
+(defvar *count* 0
+  "Count of widgets made so far.")
+
+;; tolerance should be affected by changes in widget code
+(defparameter *gap-tolerance* 0.001
+  "Tolerance to be allowed in widget gaps.")
+
+Thus, if you want to temporarily redefine *standard-output*, 
+the way to do it is simply to rebind it, say, with a LET.
+
+(let ((*standard-output* *some-other-stream*))
+  (stuff))
+
+*** Examples
+(defvar *x* 10)
+(defun foo () (format t "X: ~d~%" *x*))
+
+/* (defun bar ()
+(foo)
+(let ((*x* 20)) (foo))
+(foo))
+
+BAR
+/* (bar)
+X: 10
+X: 20
+X: 10
+NIL
+
+** CONSTANCE
+All constants are global and are defined with DEFCONSTANT. 
+The basic form of DEFCONSTANT is like DEFPARAMETER.
+
+(defconstant name initial-value-form [ documentation-string ])
+
+Thus, many Lisp programmers follow a naming convention of 
+using names starting and ending with + for constants. 
+** SETF assignment
+*** ++ --
+(setf x (+ x 1))
+(setf x (- x 1))
+
+(incf x)    === (setf x (+ x 1))
+(decf x)    === (setf x (- x 1))
+(incf x 10) === (setf x (+ x 10))
+*** Data-Structures
+Simple variable:    (setf x 10) 
+Array:              (setf (aref a 0) 10)
+Hash table:         (setf (gethash 'key hash) 10)
+Slot named 'field': (setf (field o) 10)
 * General Functions
 It is important to note that programming in LISP
 means calling functions. Functions are called in
@@ -252,11 +304,53 @@ elements of one or more given lists:
 	("Hello, ACCU" "Hello, 42" "Hello, Adam")
       
 * MACROS
+ the distinction between the code that generates code (macros) 
+and the code that eventually makes up the program (everything else).
+
 The evaluation of a macro form proceeds in two phases: 
 First, the elements of the macro form are passed, unevaluated, 
 to the macro function. Second, the form returned by the macro 
 function--called its expansion--is evaluated according to the 
 normal evaluation rules.
+
+** Basics
+(defmacro name (parameter*)
+  "Optional documentation string."
+  body-form*)
+
+the first step of writing a macro is to write at least one 
+example of a call to the macro and the code into which that call should expand.
+
+
+1. Write a sample call to the macro and the code it should expand into, or vice versa.
+2. Write code that generates the handwritten expansion from the arguments in the sample call.
+3. Make sure the macro abstraction doesn't "leak."
+
+** Example
+(defun primep (number)
+  (when (> number 1)
+    (loop for fac from 2 to (isqrt number) never (zerop (mod number fac)))))
+
+(defun next-prime (number)
+  (loop for n from number when (primep n) return n))
+
+;; (do-primes (p 0 19)
+;;   (format t "~d " p))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+/* (defun primep (number)
+(when (> number 1)
+(loop for fac from 2 to (isqrt number) never (zerop (mod number fac)))))
+
+PRIMEP
+/* (defun next-prime (number)
+  (loop for n from number when (primep n) return n))
+
+NEXT-PRIME
+/* (do ((p (next-prime 0) (next-prime (1+ p))))
+  ((> p 19))
+  (format t "~d " p))
+2 3 5 7 11 13 17 19 
+NIL
 
 * CHECH_OUT Back Quote <2014-01-05 Sun>
 Comma delimited lists is evaluated by the back quote
