@@ -84,7 +84,12 @@ symbol appears (with the exception of plus / minus
 ** (y-or-n-p "Ripped [y/n]: "))) 
 
 * Variables
+** (defparameter *example* *) *This is useful*
 ** LET -  
+The value of the last expression in the body is returned as 
+the value of the LET expression. Like function parameters, 
+variables introduced with LET are rebound each time the LET is entered.
+
    *LET*
 (let (variable*)
   body-form*)
@@ -164,6 +169,31 @@ Simple variable:    (setf x 10)
 Array:              (setf (aref a 0) 10)
 Hash table:         (setf (gethash 'key hash) 10)
 Slot named 'field': (setf (field o) 10)
+* Closures
+
+(defparameter *fn* (let ((count 0)) #'(lambda () (setf count (1+ count)))))
+
+*FN*
+/* (funcall *fn*)
+
+1
+/* (funcall *fn*)
+
+2
+/* (funcall *fn*)
+
+3
+
+
+The anonymous function is called a closure because it "closes over" the binding created by the LET.
+
+The key thing to understand about closures is that it's the binding, not 
+the value of the variable, that's captured. Thus, a closure can not only 
+access the value of the variables it closes over but can also assign new 
+values that will persist between calls to the closure. For instance, you 
+can capture the closure created by the previous expression in a global 
+variable like this:
+
 * General Functions
 It is important to note that programming in LISP
 means calling functions. Functions are called in
