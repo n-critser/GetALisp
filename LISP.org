@@ -103,6 +103,15 @@ variables introduced with LET are rebound each time the LET is entered.
     (format t "Outer LET: ~a~%" x))   ; | |
   (format t "Parameter: ~a~%" x))     ; |
 ** LET*
+(dotimes (x 3)
+  (let* ((x 0))
+    (+ x 1))
+  (print x))
+0
+1
+2
+NIL
+
    *LET**
 /* (let* ((x 10) (y (+ x 10))) (list x y))
 (10 20)
@@ -453,6 +462,11 @@ and it can compile and load that system. That is
 mighty convenient. That is where we'll be 
 putting all of our projects so that we can load the source.
 * Control-Flow
+
+** WHEN 
+(when (boundp '*db*)
+   (princ *db*)) 
+ 
 ** FOR-EACH
 /* (defun print-list (list)
      (dolist (i list)
@@ -534,3 +548,48 @@ NIL
                     (walk (cdr tree))))))
       (walk tree))
     (nreverse leaves)))
+* Pathname designators
+A pathname is a structured object that represents a filename 
+using six components: host, device, directory, name, type, and version. 
+
+You can examine these individual components of a pathname 
+with the functions PATHNAME-DIRECTORY, PATHNAME-NAME, and PATHNAME-TYPE.
+** Pathname usage
+(pathname-directory (pathname "/foo/bar/baz.txt")) ==> (:ABSOLUTE "foo" "bar")
+(pathname-name (pathname "/foo/bar/baz.txt"))      ==> "baz"
+(pathname-type (pathname "/foo/bar/baz.txt"))      ==> "txt"
+
+CL-USER> (pathname "/foo/bar/baz.txt")
+ #P"/foo/bar/baz.txt"
+CL-USER> (namestring #p"/foo/bar/baz.txt")                                 
+"/foo/bar/baz.txt"                                                         
+CL-USER> (directory-namestring #p"/foo/bar/baz.txt")
+"/foo/bar/"
+CL-USER> (file-namestring #p"/foo/bar/baz.txt")
+"baz.txt"
+** Making Paths
+*** absolute
+(make-pathname
+   :directory '(:absolute "foo" "bar")
+   :name "baz"
+   :type "txt")
+
+#P"/foo/bar/baz.txt"
+
+
+*** Relative
+**** example 1
+(make-pathname :directory '(:relative "backups")
+               :defaults #p"/foo/bar/baz.txt") ==> #p"backups/baz.txt"
+
+#P"backups/baz.txt"      
+
+
+**** example 2
+(merge-pathnames #p"foo/bar.html" #p"/www/html/") ==> #p"/www/html/foo/bar.html"
+
+(merge-pathnames #p"foo/bar.html" #p"html/") ==> #p"html/foo/bar.html"
+*** Merging with defaults
+(merge-pathnames #p"foo.txt")
+
+ #P"/home/chaos/CondoMania/nyc-condos-new/Lisp-Condos/foo.txt" 
