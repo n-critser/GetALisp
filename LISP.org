@@ -1,6 +1,9 @@
 #+TITLE:LISP.ORG
 #+DATE:2013-12-13
 
+
+
+
 * LISTS INDEPTH http://www.gigamonkeys.com/book/they-called-it-lisp-for-a-reason-list-processing.html
 ** CONS CELLS
 Lists are built by linking together cons cells in a chain. 
@@ -27,6 +30,12 @@ CL-USER> *list-3*
 
 *(mapcar #'(lambda (x) (* 2 x)) (list 1 2 3)) ==> (2 4 6)
 *(mapcar #'+ (list 1 2 3) (list 10 20 30)) ==> (11 22 33)*
+
+* Quote function
+It is important that the use of QUOTEs is properly understood 
+because QUOTE has to be used with all functions that use lists or S-atoms as data-types.
+(rest (rest '((1 2) (3 4) (5 6))))
+
 * LISP ATOMS
 234    bread    hello   (atoms)
 ( 2 3 4) a list of atoms
