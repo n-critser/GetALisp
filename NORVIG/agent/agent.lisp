@@ -1,4 +1,4 @@
-;;;; -*- Mode: Lisp; Syntax: Common-Lisp; -*- Author: N-Critser
+;;;; -*- Mode: Lisp; Syntax: Common-Lisp;
 ;;;; copied from Peter Norvigs original lisp code files from AIMA
 ;;;; This is the closure for an Agent Program.  It is separate from
 ;;;; the agent body which it is connected to but logically and state wise
