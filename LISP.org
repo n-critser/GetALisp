@@ -1,6 +1,11 @@
 #+TITLE:LISP.ORG
 #+DATE:2013-12-13
 
+
+
+* Elisp
+** REPL M-x ielm (elisp repl)
+
 * LISTS INDEPTH http://www.gigamonkeys.com/book/they-called-it-lisp-for-a-reason-list-processing.html
 ** CONS CELLS
 Lists are built by linking together cons cells in a chain. 
@@ -27,6 +32,12 @@ CL-USER> *list-3*
 
 *(mapcar #'(lambda (x) (* 2 x)) (list 1 2 3)) ==> (2 4 6)
 *(mapcar #'+ (list 1 2 3) (list 10 20 30)) ==> (11 22 33)*
+
+* Quote function
+It is important that the use of QUOTEs is properly understood 
+because QUOTE has to be used with all functions that use lists or S-atoms as data-types.
+(rest (rest '((1 2) (3 4) (5 6))))
+
 * LISP ATOMS
 234    bread    hello   (atoms)
 ( 2 3 4) a list of atoms
@@ -79,6 +90,47 @@ symbol appears (with the exception of plus / minus
 *** (remove-if-not #'(lambda (x) (= 0 (mod x 2))) '(1 2 3 4 5 6 7 8))    
 **** need a space betwee = 0, =0 is an error
 *** (remove-if-not #' (lambda (cd) (equal (getf cd :artist) "Bad Religion")) *db*)
+* CONS 
+(CONS <EXPRESSION> <LIST>)
+
+CL-USER> (cons 'all '(my money))
+(ALL MY MONEY)
+CL-USER> (cons '(all) '(my money))
+((ALL) MY MONEY)
+CL-USER> (cons '2 '(4 5 7 6))
+(2 4 5 7 6)
+CL-USER> (cons '2 nil)
+(2)
+
+CL-USER> (cons (first '(x y z)) (rest '(x y z)))
+(X Y Z)
+* LIST --the function
+(LIST <EXPRESSION> <EXPRESSIONS...>).
+* APPEND
+(APPEND '(ZIG) '(AND) '(ZAG))
+(ZIG AND ZAG)
+
+(APPEND '(COME (FROM)) '(ZOG))
+(COME (FROM) ZOG)
+
+(APPEND '(I) NIL '(DO NOT BELEIVE IT))
+(I DO NOT BELEIVE IT)
+
+The general form for calling APPEND is
+
+(APPEND <LIST> <LISTS...>)
+
+* LENGTH-AND-REVERSE
+CL-USER> (reverse '((a b) c))
+(C (A B))
+CL-USER> (reverse '(three (two one)))
+((TWO ONE) THREE)
+CL-USER> (reverse '(three two one))
+(ONE TWO THREE)
+CL-USER> (length '(1 a 2 b))
+4
+CL-USER> (length '((1 a) (2 b)))
+2
 * format-read non strings
 ** (or (parse-integer (prompt-read "Rating") :junk-allowed t) 0)
 ** (y-or-n-p "Ripped [y/n]: "))) 
