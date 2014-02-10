@@ -1,21 +1,38 @@
-{namespace hello.view}
+{namespace blog.post}
 
 {template main}
-	  <html>
-		<head>
-			<title> {$title} Hello</title>
+		{literal}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>n-critser</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://d396qusza40orc.cloudfront.net/startup%2Fcode%2Fbootstrap-combined.no-icons.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  
+    <link rel="stylesheet" href="https://d396qusza40orc.cloudfront.net/startup%2Fcode%2Fsocial-buttons.css">
+
+    <script src="https://d396qusza40orc.cloudfront.net/startup%2Fcode%2Fjquery.js"></script>
+    <script src="https://d396qusza40orc.cloudfront.net/startup%2Fcode%2Fbootstrap.js"></script>
+    <script src="./js/array.js"></script>
+   
+    
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu"
+	  rel="stylesheet" type="text/css">
+
+    <link href='http://fonts.googleapis.com/css?family=Creepster' rel='stylesheet' type='text/css'>
+
+ 
+    <link rel="stylesheet" href="css/style.css">
+
+
+		{/literal}
+			<title> {$title} </title>
 		</head>
 		<body>
-			{$body | noAutoescape}	What the hell		
+			{$body | noAutoescape}		
 		</body>
 	</html>
-{/template}
-
-{template check_outs}
-	  <h1>CHECK_OUT:</h1>
-	  <ul>
-		{foreach $something in $check_outs}
-			 <li>{$something}</li>
-		{/foreach}
-	  </ul>
 {/template}

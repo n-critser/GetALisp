@@ -20,15 +20,15 @@
 ;;;      (add-post "pid_0" "fuckedy-fuck" "<h1>wakawakawaka</h1>")
 (defun add-post(post_id title body)
   (push-post (list post_id
-                  (make-template title body))))
+                  (make-post title body))))
 
 (defun dump-db ()
   (dolist (post *db*)
     (format t "~{~a:~10t~a~%~}~%" post)))
 
-(defun make-template(title body)
+(defun make-post( title body)
   "make a template with title and body output as html"
-   (hello.view:main
+   (blog.post:main
     (list :title title
           :body body)))
 
