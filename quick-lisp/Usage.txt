@@ -1,0 +1,11 @@
+  ==== quicklisp installed ====
+
+    To load a system, use: (ql:quickload system-name)
+
+    To find systems, use: (ql:system-apropos term)
+
+    To load Quicklisp every time you start Lisp, use: (ql:add-to-init-file)
+
+    For more information, see http://www.quicklisp.org/beta/
+
+
