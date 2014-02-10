@@ -44,3 +44,4 @@
           (slot-value a-term 'coefficient)
           (slot-value a-term 'variable-char)
           (slot-value a-term 'exponent)))
+
