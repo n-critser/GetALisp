@@ -3,6 +3,23 @@
 
 
 
+* CLASSES-CLOS
+** (class-of 'a) --> #<BUILT-IN-CLASS SYMBOL>
+** Slot Options
+   :ACCESSOR function-name
+   :INITFORM expression
+   :INITARG symbol
+** Make-instance 
+ (make-instance 'person :name name :age age))
+** Describe
+CL-USER> (describe pers12)
+#<PERSON {C326C81}>
+  [standard-object]
+
+Slots with :INSTANCE allocation:
+  NAME  = JONI
+  AGE   = 44
+** 
 * Elisp
 ** REPL M-x ielm (elisp repl)
 
