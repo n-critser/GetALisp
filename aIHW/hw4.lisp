@@ -2,7 +2,8 @@
 ;;;; Author: N-Critser
 ;;;; -----------------------------
 ;;;;
-
+(defun load-hw4()
+  (load "hw4.lisp"))
 
 
 
@@ -12,8 +13,16 @@
   (let ((result nil))
     (loop for x in Alist
        for y in Blist
-         (if 
-       do (setq result (* (* x x) (* y y)))
+       ;;if (and (equal x nil) (equal y nil)
+       when  (and (symbolp x) (symbolp y))
+       do (setq result (list x x y y))
+       when (and (numberp x) (numberp y))
+       do (setq result (* (* x y) (* x y)))
+       ;;when (and (not x) (not y))
+       ;;do (print "x and y are nil")
+       when (or (and (not (symbolp x)) (symbolp y))
+                (and (symbolp x) (not (symbolp y))))
+         do (format t  "~A  and ~A don't match type ~%" x y)
          collect result )))
        
 
