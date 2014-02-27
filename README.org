@@ -12,7 +12,7 @@
 cd /usr/local/src/ 
 #+END_SRC 
 **  download 
-http://ccl.clozure.com/downloads.html
+ccl.clozure.com/downloads.html
 ** svn source 
 #+BEGIN_SRC bash
 svn co http://svn.clozure.com/publicsvn/openmcl/release/1.9/linuxx86/ccl
