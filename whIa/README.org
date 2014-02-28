@@ -1,1 +1,7 @@
-* TODO check water-jug2.lisp
+#+TITLE: README.org
+#+AUTHOR: N-CRITSER
+#+DATE:<2014-02-27 Thu>
+
+* TODO Finish up testing and evaluation code for all functions
+* TODO Write better error handler thing
+* DONE check water-jug2.lisp
