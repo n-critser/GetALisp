@@ -9,37 +9,57 @@
   ((message
     :documentation "Text message of Argument Error"
     :initarg :message
-    :reader message)
+    :initform "An argument error has occured"
+    :reader arg-error-message
+    :accessor message)
    (arg
+    :accessor arg
     :initarg :arg
     :initform nil
-    :documentation "The value that signaled the error")))
+    :reader arg-error-arg
+    :documentation "The value that signaled the error"))
+  (:report (lambda (condition stream)
+             (format stream " ERROR-in: ~A  MESSAGE: ~A  ~%"
+                     (arg-error-arg condition)
+                     (arg-error-message condition)))))
 
-(defmethod print-arg-error ((object arg-error) stream )
+(defun reset-list()
+  (format t "Reformat to a list  " )) 
+  
+
+;(defmethod print-arg-error ((object arg-error) stream )
 ;  (print-unreadable-object (self stream :type t :identity t)
-    (format stream  "~@[~A ~] ~@[: ~A ~]~%"
-            (arg-error-message object)
-            (arg-error-arg object)))
+;    (format stream  "~@[~A ~] ~@[: ~A ~]~%"
+;            (arg-error-message object)
+;            (arg-error-arg object)))
 
-(defun arg-error (message &key arg )
-  (error 'arg-error
-         :message message
-         :arg arg))
+;(defun arg-error (message &key arg )
+;  (error 'arg-error
+;         :message message
+;         :arg arg))
 
 (defparameter *test-list* '((1 2 3 x y z)
                             "hi" 
                             (r foo bar baz zab)
                             (2 nil nil 22 22)
                             (pi (* x x) r^2)))
-                           
+
+
+
+(defun invalid-list (alist)
+  (format t " INVALID-LIST : ~A ~%" alist ))
+  ;;(format t " INVALID-LIST : ~{ ~A~^ ~}~~%" list))
 
 ;;;; square product
 ;; FIXME 
 (defun sqr-prod (Alist Blist)
-  ;;(when (or (not (consp Alist)) (not (consp Blist))
+;  (restart-bind ((nil #'(lambda)() (invalid-list Alist))
+;                 :report-function
+;                 #'(lambda (stream)
+;                     (format stream "Invalid List.")))
   
   (let ((result nil))
-    (if (and (consp Alist) (consp Blist))
+    (if (and  (consp  Alist) (consp Blist))
         (loop for x in Alist
            for y in Blist
            ;;if (and (equal x nil) (equal y nil)
@@ -51,17 +71,36 @@
            ;;do (print "x and y are nil")
            when (or (and (not (symbolp x)) (symbolp y))
                     (and (symbolp x) (not (symbolp y))))
-           do (format t  "~A  and ~A don't match type ~%" x y)
+           do
+             (format t  "[~A] and [~A] Type Mismatch ~%" x y)
+             (setq result '---)
            collect result )
-        (error 'arg-error :arg "Not a valid list"))))
+        ;else
+        ;(format t "[ERROR: ~A is not a valid list]" "Your List"))))
+        (cerror "Try again."
+         'arg-error :message "Gack!! Somethings Wrong with my Thing"))))
 
 
+(defparameter *sqr1* '( (1 2 3 6)  (a b c) (1 2 c) (a b 9 4) ("hi" "di" "ho") () ))
+(defparameter *sqr2* '( (3 2 1)  (w h o) (x 2 f a) (bu 23 y) ( a 2 h i 2 )))
 
-(defun test-sqr-prod (lists)
+(defun test-sqr(list1 list2)
+  ;(let ((out nil))
+  (loop for l1 in list1
+     for l2 in list2
+     do (format t "[~{~A~^,~}]  [~{ ~A~^,~}] = Sqr-Result=~A~%"
+                l1
+                l2
+                (handler-case (sqr-prod l1 l2)
+                  (arg-error () nil)))))
+               
+
+
+(defun test-sqr-prod (lists) 
   (let ((out nil))
     (loop for list in lists
          do (setq out (handler-case (sqr-prod list list)
-                        (arg-error () )))
+                        (arg-error () (format t "~A" * ))))
          collect out )))
 
 
@@ -69,8 +108,8 @@
 ;; ------------------------
 ;; usage: (all-mom '( x 3 fancy what nil)) ----------> (MOM MOM MOM MOM NIL)
 (defun all-mom (list)
-  (when (not (consp list))
-    (format t "~A is not a list ~%" list))
+  ;(when (not (consp list))
+  ;  (format t "~A is not a list ~%" list))
   (when (consp list)
     (cond ((endp list) nil)
           ((consp (first list))
@@ -78,6 +117,13 @@
           ((equal (first list) nil) (cons nil (all-mom (rest list))))
           (t  (cons 'mom (all-mom (rest list)))))))
 
+
+(defun test-mom (lists)
+  (loop for list in lists
+       do (format t "[~{~A~^,~}] :  all-mom =~A~%"
+               list
+                (handler-case (all-mom list)
+                  (arg-error () nil)))))
 
 ;;
 (defun surface (elem list)
@@ -91,7 +137,7 @@
 ;; defvar is not reloaded during a slime session
 ;; defparameter is  
 (defparameter *elems* '(a b "hi" d 5 d d g d ) )
-(defparameter *lists* '((a b c) (x y (b) bb b B z) (j "hi" ("HI") g) (l m o) (1 2 34 5) ("hello" "back" "ddd" d d d 'd)))
+(defparameter *lists* '((a b c) (x y (b "what" f brick house) bb b B z) (j "hi" ("HI") g) (l m o) (1 2 34 5) ("hello" "back" "ddd" d d d 'd)))
                                                              
 
 (defun test-surface (elems lists)
@@ -125,7 +171,11 @@
                   (arg-error () nil))
                   elem
                   list)))
-                
+
+(defun test-deep-surface ()
+  (test-deep *elems* *lists*)
+  (test-surface *elems* *lists*))
+
 ;;     collect  (list elem list)
        ;;do (format t "elem=~A list=~A ~%" elem list)
 ;;     collect (handler-case (deep elem list)

@@ -1,0 +1,54 @@
+
+CL-USER> (test-mom *sqr1*)
+[1,2,3,6] :  all-mom =(MOM MOM MOM MOM)
+[A,B,C] :  all-mom =(MOM MOM MOM)
+[1,2,C] :  all-mom =(MOM MOM MOM)
+[A,B,9,4] :  all-mom =(MOM MOM MOM MOM)
+[hi,di,ho] :  all-mom =(MOM MOM MOM)
+[] :  all-mom =NIL
+NIL
+
+CL-USER> (test-mom *lists*)
+[A,B,C] :  all-mom =(MOM MOM MOM)
+[X,Y,(B what F BRICK HOUSE),BB,B,B,Z] :  all-mom =(MOM MOM (MOM MOM MOM MOM MOM) MOM MOM MOM MOM)
+[J,hi,(HI),G] :  all-mom =(MOM MOM (MOM) MOM)
+[L,M,O] :  all-mom =(MOM MOM MOM)
+[1,2,34,5] :  all-mom =(MOM MOM MOM MOM)
+[hello,back,ddd,D,D,D,'D] :  all-mom =(MOM MOM MOM MOM MOM MOM (MOM MOM))
+NIL
+
+
+CL-USER> (test-deep-surface)
+deep-count=1 :  elem= A    list= (A B C)
+deep-count=1 :  elem= B    list= (X Y (B) BB B B Z)
+deep-count=1 :  elem= hi    list= (J hi (HI) G)
+deep-count=0 :  elem= D    list= (L M O)
+deep-count=1 :  elem= 5    list= (1 2 34 5)
+deep-count=4 :  elem= D    list= (hello back ddd D D D 'D)
+surface-count=1 :  elem= A    list= (A B C)
+surface-count=2 :  elem= B    list= (X Y (B) BB B B Z)
+surface-count=1 :  elem= hi    list= (J hi (HI) G)
+surface-count=0 :  elem= D    list= (L M O)
+surface-count=1 :  elem= 5    list= (1 2 34 5)
+surface-count=3 :  elem= D    list= (hello back ddd D D D 'D)
+NIL
+
+
+CL-USER> (test-sqr *sqr1*  *sqr2*)
+[1,2,3,6]  [ 3, 2, 1] = Sqr-Result=(9 16 9)
+[A,B,C]  [ W, H, O] = Sqr-Result=((A A W W) (B B H H) (C C O O))
+[1] and [X] Type Mismatch 
+[1,2,C]  [ X, 2, F, A] = Sqr-Result=(--- 16 (C C F F))
+[B] and [23] Type Mismatch 
+[9] and [Y] Type Mismatch 
+[A,B,9,4]  [ BU, 23, Y] = Sqr-Result=((A A BU BU) --- ---)
+[hi] and [A] Type Mismatch 
+[ho] and [H] Type Mismatch 
+[hi,di,ho]  [ A, 2, H, I, 2] = Sqr-Result=(--- --- ---)
+NIL
+
+
+
+CL-USER> (test-sqr-prod *test-list*)
+NIL
+((1 16 81 (X X X X) (Y Y Y Y) (Z Z Z Z)) NIL ((R R R R) (FOO FOO FOO FOO) (BAR BAR BAR BAR) (BAZ BAZ BAZ BAZ) (ZAB ZAB ZAB ZAB)) (16 (NIL NIL NIL NIL) (NIL NIL NIL NIL) 234256 234256) ((PI PI PI PI) (PI PI PI PI) (R^2 R^2 R^2 R^2)))
