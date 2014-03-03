@@ -1,4 +1,4 @@
-
+A).
 CL-USER> (test-mom *sqr1*)
 [1,2,3,6] :  all-mom =(MOM MOM MOM MOM)
 [A,B,C] :  all-mom =(MOM MOM MOM)
@@ -6,7 +6,7 @@ CL-USER> (test-mom *sqr1*)
 [A,B,9,4] :  all-mom =(MOM MOM MOM MOM)
 [hi,di,ho] :  all-mom =(MOM MOM MOM)
 [] :  all-mom =NIL
-NIL
+
 
 CL-USER> (test-mom *lists*)
 [A,B,C] :  all-mom =(MOM MOM MOM)
@@ -15,25 +15,30 @@ CL-USER> (test-mom *lists*)
 [L,M,O] :  all-mom =(MOM MOM MOM)
 [1,2,34,5] :  all-mom =(MOM MOM MOM MOM)
 [hello,back,ddd,D,D,D,'D] :  all-mom =(MOM MOM MOM MOM MOM MOM (MOM MOM))
-NIL
 
 
+
+
+B)
 CL-USER> (test-deep-surface)
-deep-count=1 :  elem= A    list= (A B C)
-deep-count=1 :  elem= B    list= (X Y (B) BB B B Z)
-deep-count=1 :  elem= hi    list= (J hi (HI) G)
-deep-count=0 :  elem= D    list= (L M O)
-deep-count=1 :  elem= 5    list= (1 2 34 5)
-deep-count=4 :  elem= D    list= (hello back ddd D D D 'D)
+
 surface-count=1 :  elem= A    list= (A B C)
 surface-count=2 :  elem= B    list= (X Y (B) BB B B Z)
 surface-count=1 :  elem= hi    list= (J hi (HI) G)
 surface-count=0 :  elem= D    list= (L M O)
 surface-count=1 :  elem= 5    list= (1 2 34 5)
 surface-count=3 :  elem= D    list= (hello back ddd D D D 'D)
-NIL
+
+deep-count=1 :  elem= A    list= (A B C)
+deep-count=1 :  elem= B    list= (X Y (B) BB B B Z)
+deep-count=1 :  elem= hi    list= (J hi (HI) G)
+deep-count=0 :  elem= D    list= (L M O)
+deep-count=1 :  elem= 5    list= (1 2 34 5)
+deep-count=4 :  elem= D    list= (hello back ddd D D D 'D)
 
 
+
+D)
 CL-USER> (test-sqr *sqr1*  *sqr2*)
 [1,2,3,6]  [ 3, 2, 1] = Sqr-Result=(9 16 9)
 [A,B,C]  [ W, H, O] = Sqr-Result=((A A W W) (B B H H) (C C O O))
@@ -45,10 +50,36 @@ CL-USER> (test-sqr *sqr1*  *sqr2*)
 [hi] and [A] Type Mismatch 
 [ho] and [H] Type Mismatch 
 [hi,di,ho]  [ A, 2, H, I, 2] = Sqr-Result=(--- --- ---)
-NIL
-
-
 
 CL-USER> (test-sqr-prod *test-list*)
 NIL
-((1 16 81 (X X X X) (Y Y Y Y) (Z Z Z Z)) NIL ((R R R R) (FOO FOO FOO FOO) (BAR BAR BAR BAR) (BAZ BAZ BAZ BAZ) (ZAB ZAB ZAB ZAB)) (16 (NIL NIL NIL NIL) (NIL NIL NIL NIL) 234256 234256) ((PI PI PI PI) (PI PI PI PI) (R^2 R^2 R^2 R^2)))
+((1 16 81 (X X X X) (Y Y Y Y) (Z Z Z Z)) NIL ((R R R R) (FOO FOO FOO FOO)
+(BAR BAR BAR BAR) (BAZ BAZ BAZ BAZ) (ZAB ZAB ZAB ZAB))
+(16 (NIL NIL NIL NIL) (NIL NIL NIL NIL) 234256 234256)
+((PI PI PI PI) (PI PI PI PI) (R^2 R^2 R^2 R^2)))
+
+
+E)
+CL-USER> (a-star-search *water-jug2*)
+
+Performing a* search on problem water jug2.
+#<SEARCH-STATISTICS #x30200143713D>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x3020011F6E4D>
+Instance slots
+NODES-VISITED: 19
+MAXIMUM-LENGTH-OF-NODE-LIST: 0
+LENGTH-OF-SOLUTION: 4
+MAXIMUM-DEPTH: 5
+%#<A-STAR-NODE #x3020014332DD>
+Class: #<STANDARD-CLASS A-STAR-NODE>
+Wrapper: #<CCL::CLASS-WRAPPER A-STAR-NODE #x3020012487DD>
+Instance slots
+STATE: #<JUG-STATE2 #x30200143338D>
+PROBLEM: #<PROBLEM #x30200135B95D>
+PATH: (DUMP-4 EMPTY-3-INTO-4 FILL-3 FILL-4-FROM-3)
+ANCESTORS: (#<A-STAR-NODE #x30200143591D> #<A-STAR-NODE #x302001435B3D>
+            #<A-STAR-NODE #x302001436BCD> #<A-STAR-NODE #x3020014375BD>)
+ESTIMATED-DISTANCE-FROM-GOAL: 1
+COST-OF-PLAN-SO-FAR: 4
+#<A-STAR-NODE #x3020014332DD>
