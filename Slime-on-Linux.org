@@ -1,0 +1,47 @@
+#+TITLE: Slime-on-Linux.org
+#+AUTHOR: N-CRITSER 
+#+EMAIL: critser101@gmail.com
+#+DATE: <2014-02-26 Wed>
+#+STARTUP: showall
+
+
+* get Clozure !!!  damn it
+
+** PUt it HERE
+#+BEGIN_SRC bash
+cd /usr/local/src/ 
+#+END_SRC 
+**  download 
+ccl.clozure.com/downloads.html
+** svn source 
+#+BEGIN_SRC bash
+svn co http://svn.clozure.com/publicsvn/openmcl/release/1.9/linuxx86/ccl
+//copy the run ccl script from the source location to your scripts dir
+cp /usr/local/src/ccl/scripts/ccl to ~/scripts/ccl   
+#+END_SRC 
+
+
+* Getting emacs to give you options
+
+ALL THIS STUFF GOES IN YOU .emacs FILE 
+#+BEGIN_SRC lisp
+;;;;SLIME MODE SETTING INFERIROR LISP
+(setq inferior-lisp-program "~/scripts/ccl")
+(require 'slime-autoloads)
+(setq slime-net-coding-system 'utf-8-unix)
+(slime-setup '(slime-fancy))
+
+(setq slime-lisp-implementations
+      '((ccl ( "~/scripts/ccl"))
+	(sbcl ("/opt/sbcl/bin/sbcl") :coding-system utf-8-unix)))
+
+#+END_SRC
+* Getting the options working in emacs
+
+** M- - M-x slime (thats Alt minus sign then Alt-x slime)  
+this command will enter the function above in your 
+ .emacs file. from there you will be asked which 
+  lisp you want to use
+** ccl     ;; for 32 bit 
+** ccl64   ;; for 64 bit 
+

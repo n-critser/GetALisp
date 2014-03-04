@@ -1,0 +1,89 @@
+#+TITLE: Slime-on-Eniac.org
+#+AUTHOR: N-CRITSER 
+#+EMAIL: critser101@gmail.com
+#+DATE: <2014-02-26 Wed>
+#+STARTUP: showall
+#+LATEX_CLASS: article
+
+
+* Sign on to eniac
+#+BEGIN_SRC
+$ ssh <user>@eniac.cs.hunter.cuny.edu
+$ ssh cslabXX 
+#+END_SRC
+
+* Get the Slime Repository from github 
+** Clone the git repository
+Type this command into your terminal
+#+BEGIN_SRC bash
+$ git clone https://github.com/slime/slime.git
+#+END_SRC
+
+This will create a directory in your home directory
+called slime.  Inside is all the slimey goodness. 
+
+* Get Emacs to work right
+From your home directory (you landing directory when you sign on)
+run this command
+#+BEGIN_SRC
+$ more .emacs
+#+END_SRC 
+** Nothing happened
+if nothing shows up you don't have a .emacs file.  
+So lets make one.  
+** Some lisp stuff showed up
+That's fine too. We'll add to it. 
+** Within .emacs file you need the code to call slime and ccl64
+C-s C-x is emacs speak for Control+s Control+x (save command) 
+#+BEGIN_SRC
+$ emacs .emacs 
+#+END_SRC
+#+BEGIN_SRC lisp
+;; Setup load-path, autoloads and your lisp system
+;; Change the path to slime if you cloned somewhere else
+(add-to-list 'load-path "~/slime")
+(require 'slime-autoloads)
+(setq inferior-lisp-program "ccl64")
+;; now save C-x C-s  
+;; and exit C-x C-c
+#+END_SRC 
+
+
+* Test Slime 
+#+BEGIN_SRC
+$ mkdir slime-test
+$ cd slime-test/
+$ emacs  test.lisp
+#+END_SRC
+
+
+#+BEGIN_SRC lisp
+;; EVERYTHING PAST THIS IS DONE IN EMACS
+;; Make a test for slime
+(defun add-test (n1 n2)
+  (+ n1 n2))
+#+END_SRC
+** Start Slime 
+#+BEGIN_SRC 
+M-x slime <return>
+;; slime should start up
+;; then split the screen 
+C-x 4 b   
+;; this gives you a list of buffers
+;; usually the first one is the last file you worked on
+;; if test.lisp is first hit <RETURN>
+;; hit 
+C-x o  ;; thats an o not a 0
+;; you should be in slime REPL NOW
+
+;; type 
+(load "test.lisp") ;; <RETURN>
+(add-test 1 2)     ;; <RETURN> 
+3  
+ 
+#+END_SRC
+Thats it. Slime is up and running on emacs in eniac. !!!
+PS: I tested this on a Chromebook via ssh from the j lab. 
+If it doesn't work for you let me know.  
+
+

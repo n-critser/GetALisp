@@ -1,0 +1,120 @@
+% Created 2014-03-03 Mon 22:53
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\author{N-CRITSER}
+\date{\textit{<2014-02-26 Wed>}}
+\title{Slime-on-Eniac.org}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 23.4.1 (Org mode 8.2.4)}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+
+\section{Sign on to eniac}
+\label{sec-1}
+\begin{verbatim}
+$ ssh <user>@eniac.cs.hunter.cuny.edu
+$ ssh cslabXX
+\end{verbatim}
+\section{Get the Slime Repository from github}
+\label{sec-2}
+\subsection{Clone the git repository}
+\label{sec-2-1}
+Type this command into your terminal
+\begin{verbatim}
+$ git clone https://github.com/slime/slime.git
+\end{verbatim}
+
+This will create a directory in your home directory
+called slime.  Inside is all the slimey goodness. 
+\section{Get Emacs to work right}
+\label{sec-3}
+From your home directory (you landing directory when you sign on)
+run this command
+\begin{verbatim}
+$ more .emacs
+\end{verbatim}
+\subsection{Nothing happened}
+\label{sec-3-1}
+if nothing shows up you don't have a .emacs file.  
+So lets make one.  
+
+\subsection{Some lisp stuff showed up}
+\label{sec-3-2}
+That's fine too. We'll add to it. 
+
+\subsection{Within .emacs file you need the code to call slime and ccl64}
+\label{sec-3-3}
+C-s C-x is emacs speak for Control+s Control+x (save command) 
+\begin{verbatim}
+$ emacs .emacs
+\end{verbatim}
+\begin{verbatim}
+;; Setup load-path, autoloads and your lisp system
+;; Change the path to slime if you cloned somewhere else
+(add-to-list 'load-path "~/slime")
+(require 'slime-autoloads)
+(setq inferior-lisp-program "ccl64")
+;; now save C-x C-s  
+;; and exit C-x C-c
+\end{verbatim}
+
+\section{Test Slime}
+\label{sec-4}
+\begin{verbatim}
+$ mkdir slime-test
+$ cd slime-test/
+$ emacs  test.lisp
+\end{verbatim}
+
+
+\begin{verbatim}
+;; EVERYTHING PAST THIS IS DONE IN EMACS
+;; Make a test for slime
+(defun add-test (n1 n2)
+  (+ n1 n2))
+\end{verbatim}
+\subsection{Start Slime}
+\label{sec-4-1}
+\begin{verbatim}
+M-x slime <return>
+;; slime should start up
+;; then split the screen 
+C-x 4 b   
+;; this gives you a list of buffers
+;; usually the first one is the last file you worked on
+;; if test.lisp is first hit <RETURN>
+;; hit 
+C-x o  ;; thats an o not a 0
+;; you should be in slime REPL NOW
+
+;; type 
+(load "test.lisp") ;; <RETURN>
+(add-test 1 2)     ;; <RETURN> 
+3
+\end{verbatim}
+Thats it. Slime is up and running on emacs in eniac. !!!
+PS: I tested this on a Chromebook via ssh from the j lab. 
+If it doesn't work for you let me know.  
+% Emacs 23.4.1 (Org mode 8.2.4)
+\end{document}
