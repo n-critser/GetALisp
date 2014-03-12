@@ -1,0 +1,24 @@
+N-Critser
+<2014-03-12>
+
+
+Breakdown:
+Even though the below is a valid path it cannot be found by any of the search
+functions.  This is most likely due to an inconsistency between operators and the
+transition of states processed by the search engine.
+
+
+
+Describe:
+(describe  (two-cannib-boat-to-goal (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-cannib-boat-to-start (two-miss-boat-to-goal (cannib-and-miss-boat-to-start (two-miss-boat-to-goal (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-miss-boat-to-start (cannib-and-miss-boat-to-goal  (start-state *missionaries-and-cannibals*)))))))))))))
+
+#<SHORE-STATE #x302000FEF44D>
+Class: #<STANDARD-CLASS SHORE-STATE>
+Wrapper: #<CCL::CLASS-WRAPPER SHORE-STATE #x302000F8C9AD>
+Instance slots
+BOAT-START: NIL
+MISSIONARIES-START: 0
+CANNIBALS-START: 0
+BOAT-GOAL: T
+MISSIONARIES-GOAL: 3
+CANNIBALS-GOAL: 3
