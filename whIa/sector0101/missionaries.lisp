@@ -65,13 +65,17 @@
                  :name "missionaries-and-cannibals"))
 
 (defmethod equal-states ((self shore-state) (other shore-state))
-  (and (equal (missionaries-start self) (missionaries-start other))
+  (and (equal (boat-start self) (boat-start other))
+       (equal (boat-goal self) (boat-goal other))
+       (equal (missionaries-start self) (missionaries-start other))
        (equal (cannibals-start self) (cannibals-start other))
        (equal (missionaries-goal self) (missionaries-goal other))
        (equal (cannibals-goal self) (cannibals-goal other))))
 
 (defmethod copy ((self shore-state))
   (make-instance 'shore-state
+                 :boat-start (boat-start self)
+                 :boat-goal (boat-goal self)
                  :missionaries-start (missionaries-start self)
                  :cannibals-start (cannibals-start self)
                  :missionaries-goal (missionaries-goal self)
@@ -118,6 +122,7 @@
           (old-cann-goal (cannibals-goal self))
           (old-cann-start (cannibals-start self)))
       (format t "~% 2 miss  to  goal  MG=~a CG=~a MS=~a CS=~a  ~%"
+              
               old-miss-goal
               old-cann-goal
               old-miss-start

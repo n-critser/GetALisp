@@ -1,0 +1,215 @@
+#+TITLE:SEARCH_EVAL.ORG
+#+AUTHOR: N-CRITSER
+#+DATE: <2014-03-12 Wed>
+
+
+
+* SEARCH COMPARISON
+For the two problems compared (missionaries-and-cannibals still under construction)
+Breadth-first-search solved both within a comparable amount of time but expanded
+far more nodes than the two constrained variants of Depth-first-search.  General
+Depth-first-search (DFS)  performed so poorly that I was unable to solve the problems
+due to system time outs.  According to system monitor statistics,   
+DFS timed out after 12 min and using 95% of system ram on the farmer problem and 
+after 10 min 95% ram on *water-jug*.  
+Unlike its  variants, which solved the problem within milliseconds, 
+while barely consuming any ram. 
+Breadth-first-search (BFS) solved the problems in milliseconds, but expanded many more 
+nodes than the Depth-first-search-duplicate-node-detection (DFSDND) and Depth-first-search-
+depth-limit (DFSDL).  For the farmer problem BFS expanded 239 nodes , as opposed to 
+DFSDND and DFSDL which both only expanded 8 nodes for the same problem.  
+
+     Pruning the search trees using either a hueristic value for depth limiting or by 
+systematically preventing expansion of duplicate nodes effectively decreases the number
+of searchable paths.  This type of algorithmic improvement can diminish shortcomings in a 
+basic algorithm, as can be seen with DFS as compared to DFSDND & DFSDL.  By limiting the 
+deficiencies of DFS, we expand far fewer nodes than BFS , to arrive at a solution path. Its
+logical to assume that this kind of improvement can make an asymptotically important difference
+as search spaces grow.  
+
+
+
+* CHART 
+[[ ./search_Rank1.png /]/]
+
+
+
+
+* OUTPUT FROM TESTS
+
+** BREADTH-FIRST-SEARCH
+*** WATER-JUG
+#+BEGIN_SRC
+Performing breadth first search on problem water jug.
+#<SEARCH-STATISTICS #x302001084ABD>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302000FDE98D>
+Instance slots
+NODES-VISITED: 239
+MAXIMUM-LENGTH-OF-NODE-LIST: 114
+LENGTH-OF-SOLUTION: 6
+MAXIMUM-DEPTH: 7
+%#<NODE #x302001136EED>
+Class: #<STANDARD-CLASS NODE>
+Wrapper: #<CCL::CLASS-WRAPPER NODE #x302000FED9FD>
+Instance slots
+STATE: #<JUG-STATE #x302001136F9D>
+PROBLEM: #<PROBLEM #x30200105BA7D>
+PATH: (DUMP-2 FILL-2-FROM-5 DUMP-2 FILL-2-FROM-5 DUMP-2 EMPTY-5-INTO-2)
+ANCESTORS: NIL
+#<NODE #x302001136EED>
+#+END_SRC
+
+
+*** FARMER
+#+BEGIN_SRC
+Performing breadth first search on problem the farmer, the fox, the goose, and the grain.
+#<SEARCH-STATISTICS #x30200104E40D>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302000FDE98D>
+Instance slots
+NODES-VISITED: 239
+MAXIMUM-LENGTH-OF-NODE-LIST: 127
+LENGTH-OF-SOLUTION: 7
+MAXIMUM-DEPTH: 8
+%#<NODE #x302001059E2D>
+Class: #<STANDARD-CLASS NODE>
+Wrapper: #<CCL::CLASS-WRAPPER NODE #x302000FED9FD>
+Instance slots
+STATE: #<FARMER-STATE #x302001059EED>
+PROBLEM: #<PROBLEM #x302000F772ED>
+PATH: (FARMER-TAKES-GOOSE
+        FARMER-TAKES-SELF
+        FARMER-TAKES-FOX
+        FARMER-TAKES-GOOSE
+        FARMER-TAKES-GRAIN
+        FARMER-TAKES-SELF
+        FARMER-TAKES-GOOSE)
+ANCESTORS: NIL
+#<NODE #x302001059E2D>
+#+END_SRC
+
+
+** DEPTH-FIRST-SEARCH-DUPE-DETECT
+
+*** WATER-JUG
+#+BEGIN_SRC
+Performing depth first search with duplicate node detection on problem water jug.
+#<SEARCH-STATISTICS #x30200120C9AD>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302000FDE98D>
+Instance slots
+NODES-VISITED: 12
+MAXIMUM-LENGTH-OF-NODE-LIST: 2
+LENGTH-OF-SOLUTION: 6
+MAXIMUM-DEPTH: 7
+%#<NODE #x30200120AE5D>
+Class: #<STANDARD-CLASS NODE>
+Wrapper: #<CCL::CLASS-WRAPPER NODE #x302000FED9FD>
+Instance slots
+STATE: #<JUG-STATE #x30200120AF0D>
+PROBLEM: #<PROBLEM #x30200105BA7D>
+PATH: (DUMP-2 FILL-2-FROM-5 DUMP-2 FILL-2-FROM-5 DUMP-2 EMPTY-5-INTO-2)
+ANCESTORS: NIL
+#+END_SRC
+
+*** FARMER
+#+BEGIN_SRC
+Performing depth first search with duplicate node detection on problem the farmer, the fox, the goose, and the grain.
+#<SEARCH-STATISTICS #x3020010EC18D>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302000F5964D>
+Instance slots
+NODES-VISITED: 8
+MAXIMUM-LENGTH-OF-NODE-LIST: 2
+LENGTH-OF-SOLUTION: 7
+MAXIMUM-DEPTH: 7
+%#<NODE #x3020010EA79D>
+Class: #<STANDARD-CLASS NODE>
+Wrapper: #<CCL::CLASS-WRAPPER NODE #x302000F632DD>
+Instance slots
+STATE: #<FARMER-STATE #x3020010EA85D>
+PROBLEM: #<PROBLEM #x302000F772ED>
+PATH: (FARMER-TAKES-GOOSE
+        FARMER-TAKES-SELF
+        FARMER-TAKES-FOX
+        FARMER-TAKES-GOOSE
+        FARMER-TAKES-GRAIN
+        FARMER-TAKES-SELF
+        FARMER-TAKES-GOOSE)
+ANCESTORS: NIL
+
+#+END_SRC
+
+** DEPTH-FIRST-WITH-DEPTH-LIMIT
+
+*** WATER-JUG
+#+BEGIN_SRC
+Performing depth first search with depth limit on problem water jug.
+#<SEARCH-STATISTICS #x30200128D0BD>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302000FDE98D>
+Instance slots
+NODES-VISITED: 13
+MAXIMUM-LENGTH-OF-NODE-LIST: 4
+LENGTH-OF-SOLUTION: 6
+MAXIMUM-DEPTH: 7
+%#<NODE #x30200128B20D>
+Class: #<STANDARD-CLASS NODE>
+Wrapper: #<CCL::CLASS-WRAPPER NODE #x302000FED9FD>
+Instance slots
+STATE: #<JUG-STATE #x30200128B2BD>
+PROBLEM: #<PROBLEM #x30200105BA7D>
+PATH: (DUMP-2 FILL-2-FROM-5 DUMP-2 FILL-2-FROM-5 DUMP-2 EMPTY-5-INTO-2)
+ANCESTORS: NIL
+#+END_SRC
+
+
+*** FARMER
+#+BEGIN_SRC
+Performing depth first search with depth limit on problem the farmer, the fox, the goose, and the grain.
+#<SEARCH-STATISTICS #x3020011E196D>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302000FDE98D>
+Instance slots
+NODES-VISITED: 8
+MAXIMUM-LENGTH-OF-NODE-LIST: 4
+LENGTH-OF-SOLUTION: 7
+MAXIMUM-DEPTH: 7
+%#<NODE #x30200121F89D>
+Class: #<STANDARD-CLASS NODE>
+Wrapper: #<CCL::CLASS-WRAPPER NODE #x302000FED9FD>
+Instance slots
+STATE: #<FARMER-STATE #x30200121F95D>
+PROBLEM: #<PROBLEM #x302000F772ED>
+PATH: (FARMER-TAKES-GOOSE
+        FARMER-TAKES-SELF
+        FARMER-TAKES-FOX
+        FARMER-TAKES-GOOSE
+        FARMER-TAKES-GRAIN
+        FARMER-TAKES-SELF
+        FARMER-TAKES-GOOSE)
+ANCESTORS: NIL
+#<NODE #x30200121F89D>
+#+END_SRC
+
+* CRYPTARITHMETIC
+#+BEGIN_SRC
+  ABCDE
++ FBCDE
+-------
+ FGHEJB
+#+END_SRC
+#+BEGIN_SRC
+X: {A,B,C,D,E,F,G,H,J}
+D: {0...9}
+C: 
+c1:   <E + E = B + x10>
+c2:   <x10 + D + D = J + x100>
+c3:   <x100 + C + C = E + x1000>
+c4:   <x1000 + B + B = H + x10000>
+c5:   <x10000 + A + F = G + x100000>
+c6:   <{B,J,E,H,G} != odd> (all are results of 2*x = K )
+c7:   <{F} = 1 > -- if (+ 99999 99999)= 199998 max carry is 1
+
+#+END_SRC
