@@ -2,26 +2,36 @@
 #+AUTHOR: N-CRITSER
 #+DATE: <2014-03-12 Wed>
 #+LATEX_CLASS:article
-#+LATEX_CLASS_OPTIONS: [a4paper,8pt]
-#+LATEX_HEADER: \usepackage[margin=1.0in]{geometry}
+#+LaTeX_CLASS_OPTIONS: [a4paper,6pt] 
+#+OPTIONS: H:2 num:t toc:nil \n:nil @:t ::t |:t ^:{} _:{} *:t TeX:t LaTeX:t
+#+LATEX_HEADER: \usepackage[margin=.75in]{geometry}
+
+
+#+LaTeX_HEADER: \usepackage[T1]{fontenc} 
+
+#+LaTeX_HEADER: \usepackage[scaled=.7]{helvet} 
+#+LaTeX_HEADER: \usepackage{courier} % tt
+
+#+LaTeX_HEADER: \linespread{1.01}
 
 
 * SEARCH COMPARISON
-For the two problems compared (missionaries-and-cannibals still under construction)
+    For the two problems compared (missionaries-and-cannibals still under construction)
 Breadth-first-search solved both within a comparable amount of time but expanded
 far more nodes than the two constrained variants of Depth-first-search.  General
 Depth-first-search (DFS)  performed so poorly that I was unable to solve the problems
 due to system time outs.  According to system monitor statistics,   
-DFS timed out after 12 min and using 95% of system ram on the farmer problem and 
-after 10 min 95% ram on *water-jug*.  
+DFS timed out after 12 min and using 95% of system ram on the *farmer* problem and 
+after 10 min on *water-jug*  and after 12 min on *missionaries-and-cannibals(MC)*.  
 Unlike its  variants, which solved the problem within milliseconds, 
 while barely consuming any ram. 
 Breadth-first-search (BFS) solved the problems in milliseconds, but expanded many more 
 nodes than the Depth-first-search-duplicate-node-detection (DFSDND) and Depth-first-search-
-depth-limit (DFSDL).  For the farmer problem BFS expanded 239 nodes , as opposed to 
-DFSDND and DFSDL which both only expanded 8 nodes for the same problem.  
+depth-limit (DFSDL).  For the *farmer* problem BFS expanded 239 nodes , as opposed to 
+DFSDND and DFSDL which both only expanded 8 nodes for the same problem.  The difference
+in expanded nodes increased with *MC*, with BFS searching thousands more nodes.    
 
-     Pruning the search trees using either a hueristic value for depth limiting or by 
+    Pruning the search trees using either a hueristic value for depth limiting or by 
 systematically preventing expansion of duplicate nodes effectively decreases the number
 of searchable paths.  This type of algorithmic improvement can diminish shortcomings in a 
 basic algorithm, as can be seen with DFS as compared to DFSDND & DFSDL.  By limiting the 
@@ -33,7 +43,7 @@ as search spaces grow.
 
 ** CHART
 #+ATTR_LATEX: :width 8cm :options angle=0
-[[./image2993.png]]
+[[./search_eval.png]]
 
 
 
@@ -41,6 +51,36 @@ as search spaces grow.
 ** OUTPUT FROM TESTS
 
 *** BREADTH-FIRST-SEARCH
+**** MISSIONARIES-AND-CANNIBALS
+#+BEGIN_SRC
+Performing breadth first search on problem missionaries-and-cannibals.
+#<SEARCH-STATISTICS #x3020013366FD>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302001142CBD>
+Instance slots
+NODES-VISITED: 3197
+MAXIMUM-LENGTH-OF-NODE-LIST: 1596
+LENGTH-OF-SOLUTION: 11
+MAXIMUM-DEPTH: 12
+%#<NODE #x302001341C0D>
+Class: #<STANDARD-CLASS NODE>
+Wrapper: #<CCL::CLASS-WRAPPER NODE #x30200114758D>
+Instance slots
+STATE: #<SHORE-STATE #x302001341D0D>
+PROBLEM: #<PROBLEM #x3020012DBFAD>
+PATH: (TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-MISS-BOAT-TO-GOAL
+        CANNIB-AND-MISS-BOAT-TO-START
+        TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-MISS-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-CANNIB-BOAT-TO-GOAL)
+ANCESTORS: NIL
+#+END_SRC
 **** WATER-JUG
 #+BEGIN_SRC
 Performing breadth first search on problem water jug.
@@ -94,7 +134,39 @@ ANCESTORS: NIL
 
 
 *** DEPTH-FIRST-SEARCH-DUPE-DETECT
-
+**** MISSIONARIES-AND-CANNIBALS
+#+BEGIN_SRC
+#<SEARCH-STATISTICS #x3020013E7B4D>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302001142CBD>
+Instance slots
+NODES-VISITED: 15
+MAXIMUM-LENGTH-OF-NODE-LIST: 5
+LENGTH-OF-SOLUTION: 13
+MAXIMUM-DEPTH: 13
+%#<NODE #x30200141B2ED>
+Class: #<STANDARD-CLASS NODE>
+Wrapper: #<CCL::CLASS-WRAPPER NODE #x30200114758D>
+Instance slots
+STATE: #<SHORE-STATE #x30200141B40D>
+PROBLEM: #<PROBLEM #x3020012DBFAD>
+PATH: (TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-MISS-BOAT-TO-GOAL
+        CANNIB-AND-MISS-BOAT-TO-START
+        TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-MISS-BOAT-TO-GOAL
+        CANNIB-AND-MISS-BOAT-TO-START
+        TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        CANNIB-AND-MISS-BOAT-TO-GOAL)
+ANCESTORS: NIL
+#<NODE #x30200141B2ED>
+#+END_SRC
+     
 **** WATER-JUG
 #+BEGIN_SRC
 Performing depth first search with duplicate node detection on problem water jug.
@@ -118,7 +190,8 @@ ANCESTORS: NIL
 
 **** FARMER
 #+BEGIN_SRC
-Performing depth first search with duplicate node detection on problem the farmer, the fox, the goose, and the grain.
+Performing depth first search with duplicate node detection on 
+problem the farmer, the fox, the goose, and the grain.
 #<SEARCH-STATISTICS #x3020010EC18D>
 Class: #<STANDARD-CLASS SEARCH-STATISTICS>
 Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302000F5964D>
@@ -145,7 +218,40 @@ ANCESTORS: NIL
 #+END_SRC
 
 *** DEPTH-FIRST-WITH-DEPTH-LIMIT
+**** MISSIONARIES-AND-CANNIBALS
+#+BEGIN_SRC
+DEPTH-LIMIT = 12
 
+Performing depth first search with depth limit 
+on problem missionaries-and-cannibals.
+
+#<SEARCH-STATISTICS #x3020015F234D>
+Class: #<STANDARD-CLASS SEARCH-STATISTICS>
+Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x3020013FE70D>
+Instance slots
+NODES-VISITED: 19
+MAXIMUM-LENGTH-OF-NODE-LIST: 13
+LENGTH-OF-SOLUTION: 11
+MAXIMUM-DEPTH: 12
+%#<NODE #x3020015ED41D>
+Class: #<STANDARD-CLASS NODE>
+Wrapper: #<CCL::CLASS-WRAPPER NODE #x30200140AABD>
+Instance slots
+STATE: #<SHORE-STATE #x3020015ED51D>
+PROBLEM: #<PROBLEM #x3020012DBFAD>
+PATH: (TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-MISS-BOAT-TO-GOAL
+        CANNIB-AND-MISS-BOAT-TO-START
+        TWO-CANNIB-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-MISS-BOAT-TO-GOAL
+        ONE-CANNIB-BOAT-TO-START
+        TWO-CANNIB-BOAT-TO-GOAL)
+ANCESTORS: NIL
+#+END_SRC
 **** WATER-JUG
 #+BEGIN_SRC
 Performing depth first search with depth limit on problem water jug.
@@ -167,10 +273,12 @@ PATH: (DUMP-2 FILL-2-FROM-5 DUMP-2 FILL-2-FROM-5 DUMP-2 EMPTY-5-INTO-2)
 ANCESTORS: NIL
 #+END_SRC
 
-
+    
 **** FARMER
 #+BEGIN_SRC
-Performing depth first search with depth limit on problem the farmer, the fox, the goose, and the grain.
+Performing depth first search with depth limit 
+on problem the farmer, the fox, the goose, and the grain.
+
 #<SEARCH-STATISTICS #x3020011E196D>
 Class: #<STANDARD-CLASS SEARCH-STATISTICS>
 Wrapper: #<CCL::CLASS-WRAPPER SEARCH-STATISTICS #x302000FDE98D>

@@ -4,6 +4,11 @@
 (defun trace-depth-no-dupe ()
   (depth-first-search-with-duplicate-node-detection *missionaries-and-cannibals*))
 
+(defun search-3()
+  (breadth-first-search *missionaries-and-cannibals*)
+  (depth-first-search-with-duplicate-node-detection *missionaries-and-cannibals*)
+  (depth-first-search-with-depth-limit *missionaries-and-cannibals*))
+
 (defun a-star-mc ()
   (a-star-search *missionaries-and-cannibals*))
 
@@ -121,12 +126,12 @@
           (old-miss-goal (missionaries-goal self))
           (old-cann-goal (cannibals-goal self))
           (old-cann-start (cannibals-start self)))
-      (format t "~% 2 miss  to  goal  MG=~a CG=~a MS=~a CS=~a  ~%"
+      ;(format t "~% 2 miss  to  goal  MG=~a CG=~a MS=~a CS=~a  ~%"
               
-              old-miss-goal
-              old-cann-goal
-              old-miss-start
-              old-cann-start)
+       ;       old-miss-goal
+       ;       old-cann-goal
+       ;       old-miss-start
+       ;       old-cann-start)
       (when (and
              (>=  old-miss-start 2)
              (<= old-cann-goal (+ old-miss-goal 2))
@@ -146,9 +151,9 @@
           (old-miss-goal (missionaries-goal self))
           )
 
-      (format t "~%2 miss to start MS=~a MG=~a ~%"
-              old-miss-start
-              old-miss-goal)
+      ;(format t "~%2 miss to start MS=~a MG=~a ~%"
+      ;        old-miss-start
+      ;        old-miss-goal)
       (when  (>= old-miss-goal 2)
         (setf (boat-start copy) t)
         (setf (boat-goal copy ) nil)
@@ -193,11 +198,11 @@
           (old-cann-start (cannibals-start self))
           (old-cann-goal (cannibals-goal self))
           (old-miss-goal (missionaries-goal self)))
-      (format t "~% 1 cann to  goal  MG=~a CG=~a MS=~a CS=~a  ~%"
-              old-miss-goal
-              old-cann-goal
-              old-miss-start
-              old-cann-start)
+      ;(format t "~% 1 cann to  goal  MG=~a CG=~a MS=~a CS=~a  ~%"
+       ;       old-miss-goal
+        ;      old-cann-goal
+        ;      old-miss-start
+        ;      old-cann-start)
       (when (and
              (>= old-cann-start 1)
              (or (< old-cann-goal old-miss-goal)
@@ -226,11 +231,11 @@
           (old-miss-start (missionaries-start self))
           (old-cann-goal (cannibals-goal self))
           (old-cann-start (cannibals-start self)))
-      (format t "~% 1 miss to start MG=~a CG=~a MS=~a CS=~a  ~%"
-              old-miss-goal
-              old-cann-goal
-              old-miss-start
-              old-cann-start)
+      ;(format t "~% 1 miss to start MG=~a CG=~a MS=~a CS=~a  ~%"
+      ;        old-miss-goal
+      ;        old-cann-goal
+      ;        old-miss-start
+      ;        old-cann-start)
       (when (and
              (>= old-miss-goal 1)             
              (or (> old-miss-goal old-cann-goal)
@@ -252,10 +257,10 @@
              (>= old-cann-goal 1)
              (or (< old-cann-start old-miss-start)
                  (= old-miss-start 0)))
-        (format t "~% 1 cann to start MS=~a CS=~a CG=~a ~%"
-                old-miss-start
-                old-cann-start
-                old-cann-goal)
+       ; (format t "~% 1 cann to start MS=~a CS=~a CG=~a ~%"
+       ;         old-miss-start
+       ;         old-cann-start
+       ;         old-cann-goal)
         (setf (boat-start copy) t)
         (setf (boat-goal copy) nil)
         (setf (cannibals-start copy) (+ old-cann-start 1))
@@ -347,11 +352,11 @@
           (old-miss-start (missionaries-start self))
           (old-cann-goal (cannibals-goal self))
           (old-miss-goal (missionaries-goal self)))
-      (format t "~%can and miss: MS=~a CS=~a MG=~a CG=~a ~%"
-                old-miss-start
-                old-cann-start
-                old-miss-goal
-                old-cann-goal)
+      ;(format t "~%can and miss: MS=~a CS=~a MG=~a CG=~a ~%"
+      ;          old-miss-start
+      ;          old-cann-start
+      ;          old-miss-goal
+      ;          old-cann-goal)
       (when (and
              (>= old-miss-start 1)
              (>= old-cann-start 1)
