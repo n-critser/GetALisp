@@ -235,10 +235,7 @@
              (>= old-miss-goal 1)             
              (or (> old-miss-goal old-cann-goal)
                  (= (- old-miss-goal 1) 0 ))
-            ; (<= old-cann-start old-miss-start))
-             )
-
-        
+             (<= old-cann-start old-miss-start))
         (setf (boat-goal copy) nil)
         (setf (boat-start copy) t)
         (setf (missionaries-goal copy) (- old-miss-goal 1))
@@ -289,7 +286,7 @@
            (> old-cann-start 1))
            
            (or (=  old-miss-goal 0)
-               (> old-miss-goal (+ (cannibals-goal self) 2))
+               (> old-miss-goal (+ old-cann-goal 2))
                )
              
         (setf (boat-start copy) nil)
@@ -311,9 +308,9 @@
           (old-cann-goal (cannibals-goal self)))
       
       (when (and
-             (> old-cann-goal 1))
-             ;(or (= old-miss-start 0)
-              ;   (> old-miss-start (+ old-cann-start 2))))
+             (> old-cann-goal 1)
+             (or (= old-miss-start 0)
+                 (> old-miss-start (+ old-cann-start 2))))
         (setf (boat-start copy) t)
         (setf (boat-goal copy) nil)
         (setf (cannibals-start copy) (+ old-cann-start 2))
@@ -427,8 +424,8 @@
 ;(describe  (two-cannib-boat-to-goal (one-cannib-boat-to-start (two-miss-boat-to-goal (cannib-and-miss-boat-to-start (two-miss-boat-to-goal (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-miss-boat-to-start (cannib-and-miss-boat-to-goal  (start-state *missionaries-and-cannibals*)))))))))))
 
 
-(describe  (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-cannib-boat-to-start (two-miss-boat-to-goal (cannib-and-miss-boat-to-start (two-miss-boat-to-goal (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-miss-boat-to-start (cannib-and-miss-boat-to-goal  (start-state *missionaries-and-cannibals*))))))))))))
-(describe  (two-cannib-boat-to-goal (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-cannib-boat-to-start (two-miss-boat-to-goal (cannib-and-miss-boat-to-start (two-miss-boat-to-goal (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-miss-boat-to-start (cannib-and-miss-boat-to-goal  (start-state *missionaries-and-cannibals*)))))))))))))
+;(describe  (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-cannib-boat-to-start (two-miss-boat-to-goal (cannib-and-miss-boat-to-start (two-miss-boat-to-goal (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-miss-boat-to-start (cannib-and-miss-boat-to-goal  (start-state *missionaries-and-cannibals*))))))))))))
+;(describe  (two-cannib-boat-to-goal (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-cannib-boat-to-start (two-miss-boat-to-goal (cannib-and-miss-boat-to-start (two-miss-boat-to-goal (one-cannib-boat-to-start (two-cannib-boat-to-goal (one-miss-boat-to-start (cannib-and-miss-boat-to-goal  (start-state *missionaries-and-cannibals*)))))))))))))
 
 
 
