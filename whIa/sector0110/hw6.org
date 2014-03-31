@@ -1,0 +1,150 @@
+#+TITLE:HW6.ORG
+#+AUTHOR: N-CRITSER
+#+DATE: <2014-03-12 Wed>
+#+LATEX_CLASS:article
+#+LaTeX_CLASS_OPTIONS: [a4paper,6pt] 
+#+OPTIONS: H:2 num:t toc:nil \n:nil @:t ::t |:t ^:{} _:{} *:t TeX:t LaTeX:t
+#+LATEX_HEADER: \usepackage[margin=.75in]{geometry}
+
+
+#+LaTeX_HEADER: \usepackage[T1]{fontenc} 
+
+#+LaTeX_HEADER: \usepackage[scaled=.7]{helvet} 
+#+LaTeX_HEADER: \usepackage{courier} % tt
+
+#+LaTeX_HEADER: \linespread{1.01}
+
+* 5.8
+|A | | | B |
+1 2 3 4
+Figure 5.17 The starting position of a simple game. Player A moves first. The two players
+take turns moving, and each player must move his token to an open adjacent space in either
+direction. If the opponent occupies an adjacent space, then a player may jump over the
+opponent to the next open space if any. (For example, if A is on 3 and B is on 2, then A may
+move back to 1.) The game ends when one player reaches the opposite end of the board. If
+player A reaches space 4 first, then the value of the game to A is +1; if player B reaches
+space 1 first, then the value of the game to A is −1
+
+
+5.8
+Consider the two-player game described in Figure 5.17.
+a. Draw the complete game tree, using the following conventions:
+• Write each state as (sA , sB ), where sA and sB denote the token locations.
+• Put each terminal state in a square box and write its game value in a circle.
+• Put loop states (states that already appear on the path to the root) in double square
+boxes. Since their value is unclear, annotate each with a “?” in a circle.
+b. Now mark each node with its backed-up minimax value (also in a circle). Explain how
+you handled the “?” values and why.
+c. Explain why the standard minimax algorithm would fail on this game tree and briefly
+sketch how you might fix it, drawing on your answer to (b). Does your modified algo-
+rithm give optimal decisions for all games with loops?
+d. This 4-square game can be generalized to n squares for any n > 2. Prove that A wins
+if n is even and loses if n is odd.
+
+
+
+
+* Connectives   ¬, =, ∧, ∨, ⇒, ⇔ ≡
+* Quantifier → ∀ | ∃
+* 7.2 Can you prove the following
+7.2 (Adapted from Barwise and Etchemendy (1993).) Given the following, can you prove
+that the unicorn is mythical? How about magical? Horned?
+If the unicorn is mythical, then it is immortal, but if it is not mythical, then it is a
+mortal mammal. If the unicorn is either immortal or a mammal, then it is horned.
+The unicorn is magical if it is horned. 
+unicorn:
+         R1:   mythical  ⇒ immortal  -->              ~mythical ∨ immortal
+         R2:   ~mythical ⇒ mammal    -->              mythical  ∨ mammal 
+         R3: (immortal ∨ mammal)  ⇒  horned   -->  ~(immortal ∨ mammal ) ∨ horned 
+         R4:    horned  ⇒ magical   -->               ~horned  ∨  magical 
+
+	        Contraposition :   mythical  ⇒ immortal ≡    ~immortal ⇒  ~mythical 
+	        ~immortal ⇒ ~mythical ⇒ mammal  ≡ ~immortal ⇒ mammal 
+	 R5:    Implication Elimination :  immortal ∨ mammal 
+	        Unicorn is either mammal or immortal  ( or both) 
+         R6:    (immortal ∨ mammal) ⇒ horned
+	 
+	 R7:    horned
+	 R8:    magical ( R4) 
+           
+We can't prove a unicorn to be mythical or not, but we can prove its magical since it is either
+mammal or immortal. 
+
+* TODO 7.12  Use resolution to prove the sentence ¬A∧ ¬B from the clauses in Exercise 7.20. 
+  Goal:   ¬A∧ ¬B
+  
+      ~ (A ∨ B) 
+      "Proving β from α by checking the unsatisfiability of (α ∧ ¬β) "
+      
+      A ⇔ (B ∨ E).
+      Implication Elimination:  
+      [A ⇒ (B ∨ E) ≡  ~A  ∨  (B ∨ E)] ∧  [(B ∨ E) ⇒ A ≡  ~(B ∨ E) ∨ A]
+
+       ~A  ∨  (B ∨ E)
+      Contraposition:
+      S8:  ~ (B ∨ E ) ⇒ ~A
+      S9: (B ∨ E) ∨  ~A
+      ~E ∨ B , (B ∨ E) ∨  ~A Resolves to (B ∨ ~A)
+      
+      S10:  (B ∨ ~A)
+
+      S11:    A ⇒ B
+      S12:   ~B ⇒ ~A
+      And-Elimination
+      ~(B ∨ E) ∨ A 
+      ~ ((B ∨ E)∧  ~A)  ---> ~( (B ∧ ~A)  ∨ (E  ∧ ~A))
+      
+      ~(B ∧ ~A)  ∧ ~(E  ∧ ~A)
+      ( ~B  ∨ A)  ∧ ( ~E  ∨ A) 
+
+      ( ~E  ∨ A) 
+      S12: E ⇒ A
+      
+
+      And-Elimination
+      ( ~B  ∨ A)
+      S13: B ⇒ A
+     
+      
+
+
+  
+      
+7.20
+Convert the following set of sentences to clausal form.
+S1: A ⇔ (B ∨ E).
+S2: E ⇒ D.       --->  ~E ∨ D
+S3: C ∧ F ⇒ ¬B.  --->  ~(C ∧ F) ∨ ~B
+S4: E ⇒ B.       --->  ~E ∨ B   ~B ⇒ ~E  ---> B  ∨  ~E  ---> ~(B  ∧ E) 
+S5: B ⇒ F.       --->  ~B  ∨  F
+S6: B ⇒ C        --->  ~B  ∨  C
+
+Give a trace of the execution of DPLL on the conjunction of these clauses. 
+
+* 8.10
+Consider a vocabulary with the following symbols:
+Occupation(p, o): Predicate. Person p has occupation o.
+Customer (p1, p2): Predicate. Person p1 is a customer of person p2.
+Boss(p1, p2): Predicate. Person p1 is a boss of person p2.
+Doctor , Surgeon, Lawyer , Actor : Constants denoting occupations.
+Emily, Joe: Constants denoting people.
+Use these symbols to write the following assertions in first-order logic:
+
+
+** a. Emily is either a surgeon or a lawyer.
+Occupation(Emily,Surgeon) ∨ Occupation(Emily, Lawyer) 
+
+** b. Joe is an actor, but he also holds another job.
+Occupation(Joe,Actor) ∧ ∃ o o~= Actor  Occupation(Joe,o) 
+
+** c. All surgeons are doctors.
+∀p Occupation(p,Surgeon) → Occupation(p,Doctor) 
+
+** d. Joe does not have a lawyer (i.e., is not a customer of any lawyer).
+∀l Occupation(l,Lawyer) ∧ ~Customer(Joe,l)
+** e. Emily has a boss who is a lawyer.
+∃l Occupation(l,Lawyer) ∧ Boss(l,Emily)
+** f. There exists a lawyer all of whose customers are doctors.
+∃l ∀c Occupation(l,Lawyer) ∧ Customer( Occupation(c,Doctor), l)
+** g. Every surgeon has a lawyer.
+∀s ∃c Customer(Occupation(s,Surgeon), Occupation(c,Lawyer))
