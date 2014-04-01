@@ -70,12 +70,10 @@ unicorn:
 We can't prove a unicorn to be mythical or not, but we can prove its magical since it is either
 mammal or immortal. 
 
-* TODO 7.12  Use resolution to prove the sentence ¬A∧ ¬B from the clauses in Exercise 7.20. 
+*  7.12  Use resolution to prove the sentence ¬A∧ ¬B from the clauses in Exercise 7.20. 
   Goal:   ¬A∧ ¬B
   
-      ~ (A ∨ B) 
-      "Proving β from α by checking the unsatisfiability of (α ∧ ¬β) "
-      
+      Prove: ~A 
       A ⇔ (B ∨ E).
       Implication Elimination:  
       [A ⇒ (B ∨ E) ≡  ~A  ∨  (B ∨ E)] ∧  [(B ∨ E) ⇒ A ≡  ~(B ∨ E) ∨ A]
@@ -84,32 +82,29 @@ mammal or immortal.
       Contraposition:
       S8:  ~ (B ∨ E ) ⇒ ~A
       S9: (B ∨ E) ∨  ~A
-      ~E ∨ B , (B ∨ E) ∨  ~A Resolves to (B ∨ ~A)
+      ~C  ∨ ~F ∨ ~B , (B ∨ E) ∨  ~A Resolves to ( ~C  ∨ ~F  ∨ E ∨  ~A)
+
+      S10: ( ~C  ∨ ~F  ∨ E ∨  ~A)
       
-      S10:  (B ∨ ~A)
+      ( ~C  ∨ ~F  ∨ E ∨  ~A), ~B  ∨  C  Resolves to 
+      S11: (~B  ∨ ~F  ∨ E ∨  ~A)
+      (~B   ∨ ~F  ∨ E ∨  ~A),  ~B  ∨  C Resolves to  (~B  ∨ E ∨  ~A)
+      S12:  (~B  ∨ E ∨  ~A)
+      (~B  ∨ E ∨  ~A) , ( ~E  ∨ B ) Resolves to ~A 
+      S13:  ~A  :  BY resolution
 
-      S11:    A ⇒ B
-      S12:   ~B ⇒ ~A
-      And-Elimination
-      ~(B ∨ E) ∨ A 
-      ~ ((B ∨ E)∧  ~A)  ---> ~( (B ∧ ~A)  ∨ (E  ∧ ~A))
-      
-      ~(B ∧ ~A)  ∧ ~(E  ∧ ~A)
-      ( ~B  ∨ A)  ∧ ( ~E  ∨ A) 
-
-      ( ~E  ∨ A) 
-      S12: E ⇒ A
-      
-
-      And-Elimination
-      ( ~B  ∨ A)
-      S13: B ⇒ A
-     
-      
-
-
+ 
   
-      
+      Proove ~B: 
+       ~C  ∨ ~F ∨ ~B , ~B  ∨  C Resolves to   ~B  ∨ ~F 
+      S14: ~B  ∨ ~F 
+      ~B  ∨  F,  ~B  ∨ ~F   Resolves to ~B 
+      S15:  ~B : By resolution
+  
+      Since only logical inferences were used.  And each statement is true and the conjunction of 
+      all statements is true.  Then we have proven independently ~A and ~B and thus also proven the 
+      conjunction  ~A ∧ ~B. 
+     
 7.20
 Convert the following set of sentences to clausal form.
 S1: A ⇔ (B ∨ E).
