@@ -1,0 +1,61 @@
+
+
+
+* 10.4 
+The original S TRIPS planner was designed to control Shakey the robot. Figure 10.14
+shows a version of Shakey’s world consisting of four rooms lined up along a corridor, where
+each room has a door and a light switch. The actions in Shakey’s world include moving from
+place to place, pushing movable objects (such as boxes), climbing onto and down from rigid
+objects (such as boxes), and turning light switches on and off. The robot itself could not climb
+on a box or toggle a switch, but the planner was capable of finding and printing out plans that
+were beyond the robot’s abilities. Shakey’s six actions are the following:
+• Go(x, y, r), which requires that Shakey be At x and that x and y are locations In the
+same room r. By convention a door between two rooms is in both of them.
+• Push a box b from location x to location y within the same room: Push(b, x, y, r). You
+will need the predicate Box and constants for the boxes.
+• Climb onto a box from position x: ClimbUp(x, b); climb down from a box to position
+x: ClimbDown(b, x). We will need the predicate On and the constant Floor .
+• Turn a light switch on or off: TurnOn(s, b); TurnOff (s, b). To turn a light on or off,
+Shakey must be on top of a box at the light switch’s location.
+Write PDDL sentences for Shakey’s six actions and the initial state from Figure 10.14. Con-
+struct a plan for Shakey to get Box 2 into Room 2 .
+
+
+
+* 8.11
+Complete the following exercises about logical senntences:
+a. Translate into good, natural English (no xs or ys!):
+∀ x, y, l SpeaksLanguage (x, l) ∧ SpeaksLanguage (y, l)
+⇒ Understands (x, y) ∧ Understands(y, x).
+b. Explain why this sentence is entailed by the sentence
+∀ x, y, l SpeaksLanguage (x, l) ∧ SpeaksLanguage (y, l)
+⇒ Understands (x, y).
+c. Translate into first-order logic the following sentences:
+(i) Understanding leads to friendship.
+(ii) Friendship is transitive.
+Remember to define all predicates, functions, and constants you use.
+
+
+* 9.3 
+Suppose a knowledge base contains just one sentence, ∃ x AsHighAs(x, Everest ).
+Which of the following are legitimate results of applying Existential Instantiation?
+a. AsHighAs(Everest, Everest ).
+b. AsHighAs(Kilimanjaro, Everest).
+c. AsHighAs(Kilimanjaro, Everest) ∧ AsHighAs(BenNevis, Everest)
+(after two applications)
+
+* 9.9
+Suppose you are given the following axioms:
+1. 0 ≤ 3.
+2. 7 ≤ 9.
+3. ∀ x x ≤ x.
+4. ∀ x x ≤ x + 0.
+5. ∀ x x + 0 ≤ x.
+6. ∀ x, y x + y ≤ y + x.
+7. ∀ w, x, y, z w ≤ y ∧ x ≤ z ⇒ w + x ≤ y + z.
+8. ∀ x, y, z x ≤ y ∧ y ≤ z ⇒ x ≤ z
+a. Give a backward-chaining proof of the sentence 7 ≤ 3 + 9. (Be sure, of course, to use
+only the axioms given here, not anything else you may know about arithmetic.) Show
+only the steps that leads to success, not the irrelevant steps.
+b. Give a forward-chaining proof of the sentence 7 ≤ 3 + 9. Again, show only the steps
+that lead to success.
