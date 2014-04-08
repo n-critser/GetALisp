@@ -1,8 +1,8 @@
 
 
 
-* 10.4 
-The original S TRIPS planner was designed to control Shakey the robot. Figure 10.14
+* TODO 10.4 
+The original STRIPS planner was designed to control Shakey the robot. Figure 10.14
 shows a version of Shakey’s world consisting of four rooms lined up along a corridor, where
 each room has a door and a light switch. The actions in Shakey’s world include moving from
 place to place, pushing movable objects (such as boxes), climbing onto and down from rigid
@@ -22,27 +22,44 @@ struct a plan for Shakey to get Box 2 into Room 2 .
 
 
 
-* 8.11
+* STARTED 8.11
 Complete the following exercises about logical senntences:
-a. Translate into good, natural English (no xs or ys!):
+*** a. Translate into good, natural English (no xs or ys!):
 ∀ x, y, l SpeaksLanguage (x, l) ∧ SpeaksLanguage (y, l)
 ⇒ Understands (x, y) ∧ Understands(y, x).
-b. Explain why this sentence is entailed by the sentence
+**** answer
+All people  that speak the same language, 
+understand each other. 
+
+*** b. Explain why this sentence is entailed by the sentence
 ∀ x, y, l SpeaksLanguage (x, l) ∧ SpeaksLanguage (y, l)
 ⇒ Understands (x, y).
-c. Translate into first-order logic the following sentences:
-(i) Understanding leads to friendship.
-(ii) Friendship is transitive.
+**** answer
+For any two people that speak the same language, 
+one will understand the other. 
+*** c. Translate into first-order logic the following sentences:
+**** (i) Understanding leads to friendship.
+***** answer
+∀ x, y  Understands(x,y) ∧ Understand(y,x) ⇒ Friendship(x,y) 
+∧ Friendship(y,x)
+**** (ii) Friendship is transitive.
+***** answer
+∀ x, y , z Friendship(x,y)  ∧ Friendship(y,z) ⇒ Friendship(x,z) 
 Remember to define all predicates, functions, and constants you use.
 
 
-* 9.3 
+* TODO 9.3 
 Suppose a knowledge base contains just one sentence, ∃ x AsHighAs(x, Everest ).
 Which of the following are legitimate results of applying Existential Instantiation?
 a. AsHighAs(Everest, Everest ).
 b. AsHighAs(Kilimanjaro, Everest).
 c. AsHighAs(Kilimanjaro, Everest) ∧ AsHighAs(BenNevis, Everest)
 (after two applications)
+** answer
+All three are legit.  
+a. (x/Everest)
+b. (x/Kilimanjaro)
+c. (x/Kilimanjaro), (x,BenNevis)
 
 * 9.9
 Suppose you are given the following axioms:
@@ -54,8 +71,35 @@ Suppose you are given the following axioms:
 6. ∀ x, y x + y ≤ y + x.
 7. ∀ w, x, y, z w ≤ y ∧ x ≤ z ⇒ w + x ≤ y + z.
 8. ∀ x, y, z x ≤ y ∧ y ≤ z ⇒ x ≤ z
-a. Give a backward-chaining proof of the sentence 7 ≤ 3 + 9. (Be sure, of course, to use
+** a. Give a backward-chaining proof of the sentence 7 ≤ 3 + 9. (Be sure, of course, to use
 only the axioms given here, not anything else you may know about arithmetic.) Show
 only the steps that leads to success, not the irrelevant steps.
-b. Give a forward-chaining proof of the sentence 7 ≤ 3 + 9. Again, show only the steps
+*** ANSWER
+7 <= 3 + 9
+S(7) theta((w/7),(x/0),(y,9),(z/3))
+S(2)
+7 <= 9   ∧ 0 <= 3 ⇒ 7 + 0 <= 9 + 3
+S(4)  theta(x/7)
+7 <= 7 + 0
+
+S(6)
+theta(x,9),(y,3)
+9 + 3 <= 3 + 9 
+
+S(8) 
+theta(((7+0)/x), ((9+3)/y), ((3+9)/z))
+7+0 <= (9 + 3) ∧ (9 + 3)<= (3 + 9) ⇒ 7+0 <=  3+9
+
+
+S(8)
+theta((7/x), ((7+0)/y), ((3+9/z)))
+7 <= (7 + 0) ∧ (7 + 0)<= (3 + 9) ⇒ 7 <= 3 + 9
+
+** b. Give a forward-chaining proof of the sentence 7 ≤ 3 + 9. Again, show only the steps
 that lead to success.
+*** ANSWER
+7 <= 3 + 9
+S(6)
+S(4)
+S(7)
+S(8)
