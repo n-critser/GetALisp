@@ -15,31 +15,41 @@ were beyond the robot’s abilities. Shakey’s six actions are the following:
 same room r. By convention a door between two rooms is in both of them.
 • Push a box b from location x to location y within the same room: Push(b, x, y, r). You
 will need the predicate Box and constants for the boxes.
-• Climb onto a box from position x: ClimbUp(x, b); climb down from a box to position
-x: ClimbDown(b, x). We will need the predicate On and the constant Floor .
+• Climb onto a box from position x: ClimbUp(x, b); 
+climb down from a box to position x: ClimbDown(b, x). 
+We will need the predicate On and the constant Floor .
 • Turn a light switch on or off: TurnOn(s, b); TurnOff (s, b). To turn a light on or off,
 Shakey must be on top of a box at the light switch’s location.
 Write PDDL sentences for Shakey’s six actions and the initial state from Figure 10.14. Con-
 struct a plan for Shakey to get Box 2 into Room 2 .
 ** Answer
 1:Action: Go( x,y,r)
-       precond: inRoom(x,r) And inRoom(y,r) And At(s,x) And Shakey(s) 
+       precond: In(x,r) And In(y,r) And At(s,x) And Shakey(s) 
        effect: ~At(s,x) And At(s,y) 
 2: Action: Push( b,x,y ,r)
-       precond:
-       effect:
+       precond: Box(b) And Shakey(s) And In(b,r) And In(s,r) And At(b,x) And At(s,x) And Touch(s,b) And ~At(b,y) And ~At(s,y)
+       effect: At(s,y) And At(b,y) And ~At(s,x) And ~At(b,x)
 
 2: Action: ClimbDown( b, x)
-       precond:
-       effect:
+       precond: On(s,b) And On(b,Floor) And Box(b) And Shakey(s) And On(x,Floor) And ~At(b,x) And ~At(s,x)
+       effect: ~On(s,b) And On(s,Floor) And At(s,x)
 3: Action: ClimbUp (x,b)
-       precond:
-       effect:
+       precond: On(x,b) And On(b,Floor) And ~On(s,b) And On(s,Floor) And Shakey(s) And Box(b)
+       effect: On(s,b) And At(s,x) And ~On(s,Floor)
 
 4: Action: turnOn( s,b)
-5: Action: turnOff( s,b)
+       precond: At(b,Switch) And On(s,b) And ~IsOn(Switch) And Shakey(s) And Box(b) And Switch
+       effect: IsOn(Switch)
+5: Action: turnOff( s,b) 
+       precond: At(b,Switch) And On(s,b) And IsOn(Switch) And Shakey(s) And Box(b) And Light(Switch)
+       effect: ~IsOn(Switch)
 
 ** 10.4 Staterep:
+Init( In(Shakey,R3)  And In(Door3,R3) And In(Door3,Coridor) And In(Door1,Coridor)
+      And In(Door1,R1) And In(Door2,Coridor) And In(Door2,R2) And  In(Box2,R1) And Room(R3) And Room(R1)) 
+Goal ( At(Box2,R1)
+Plan: [ Go(Shakey,Door3), Go(Shakey,Door1),Go(Shakey,Box2),Push(Box2,Box2,Door1,R1), Push(Box2,Box2,Door2,Cooridor),
+        Push(Box2,Box2,Door2,R2)]
 
 
 
