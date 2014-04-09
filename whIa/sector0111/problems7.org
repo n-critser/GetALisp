@@ -21,6 +21,25 @@ x: ClimbDown(b, x). We will need the predicate On and the constant Floor .
 Shakey must be on top of a box at the light switch’s location.
 Write PDDL sentences for Shakey’s six actions and the initial state from Figure 10.14. Con-
 struct a plan for Shakey to get Box 2 into Room 2 .
+** Answer
+1:Action: Go( x,y,r)
+       precond: inRoom(x,r) And inRoom(y,r) And At(s,x) And Shakey(s) 
+       effect: ~At(s,x) And At(s,y) 
+2: Action: Push( b,x,y ,r)
+       precond:
+       effect:
+
+2: Action: ClimbDown( b, x)
+       precond:
+       effect:
+3: Action: ClimbUp (x,b)
+       precond:
+       effect:
+
+4: Action: turnOn( s,b)
+5: Action: turnOff( s,b)
+
+** 10.4 Staterep:
 
 
 
@@ -37,8 +56,9 @@ understand each other.
 ∀ x, y, l SpeaksLanguage (x, l) ∧ SpeaksLanguage (y, l)
 ⇒ Understands (x, y).
 **** answer
-For any two people that speak the same language, 
-one will understand the other. 
+Since x and y  are universal quantifiers. We can use substitution to show 
+that x and y can be substituted for to yield the equivalent of both statements 
+Understand(x,y) and Understand(y,x) .  So b entails a.   
 *** c. Translate into first-order logic the following sentences:
 **** (i) Understanding leads to friendship.
 ***** answer
