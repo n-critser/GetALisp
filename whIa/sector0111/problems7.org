@@ -1,4 +1,6 @@
-
+#+STARTUP: showall
+#+AUTHOR: N-Critser
+#+DATE: <2014-04-08 Tue>
 
 
 * TODO 10.4 
@@ -48,7 +50,7 @@ one will understand the other.
 Remember to define all predicates, functions, and constants you use.
 
 
-* TODO 9.3 
+* DONE 9.3 
 Suppose a knowledge base contains just one sentence, ∃ x AsHighAs(x, Everest ).
 Which of the following are legitimate results of applying Existential Instantiation?
 a. AsHighAs(Everest, Everest ).
@@ -56,12 +58,12 @@ b. AsHighAs(Kilimanjaro, Everest).
 c. AsHighAs(Kilimanjaro, Everest) ∧ AsHighAs(BenNevis, Everest)
 (after two applications)
 ** answer
-All three are legit.  
-a. (x/Everest)
-b. (x/Kilimanjaro)
-c. (x/Kilimanjaro), (x,BenNevis)
+B and C  are legit, A is not legit  
+a. (x/Everest) ---   no legit, since Everest appears in the KB
+b. (x/Kilimanjaro) --- legit  
+c. (x/Kilimanjaro), (x,BenNevis) --- legit
 
-* 9.9
+* TODO 9.9
 Suppose you are given the following axioms:
 1. 0 ≤ 3.
 2. 7 ≤ 9.
