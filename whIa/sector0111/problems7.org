@@ -156,3 +156,20 @@ theta((x1/7), (y1/(7+0)), (z1/(3+9)))
 
 
 
+=======
+** b. Give a forward-chaining proof of the sentence 7 ≤ 3 + 9. Again, show only the steps
+that lead to success.
+*** ANSWER
+7 <= 3 + 9
+S(6) 
+theta(x,9),(y,3)
+9 + 3 <= 3 + 9 
+
+S(4)
+S(4)  theta(x/7)
+7 <= 7 + 0
+
+S(7)
+
+S(8)
+
