@@ -24,32 +24,37 @@ Write PDDL sentences for Shakey’s six actions and the initial state from Figur
 struct a plan for Shakey to get Box 2 into Room 2 .
 ** Answer
 1:Action: Go( x,y,r)
-       precond: In(x,r) And In(y,r) And At(s,x) And Shakey(s) 
-       effect: ~At(s,x) And At(s,y) 
+       precond: In(x,r) And In(y,r) And At(Shakey,x)  
+       effect: ~At(Shakey,x) And At(Shakey,y) 
 2: Action: Push( b,x,y ,r)
-       precond: Box(b) And Shakey(s) And In(b,r) And In(s,r) And At(b,x) And At(s,x) And Touch(s,b) And ~At(b,y) And ~At(s,y)
-       effect: At(s,y) And At(b,y) And ~At(s,x) And ~At(b,x)
+       precond: Box(b) And CanPush(b) And In(b,r) And In(Shakey,r) And At(b,x) And At(Shakey,x) 
+       effect: At(Shakey,y) And At(b,y) And ~At(Shakey,x) And ~At(b,x)
 
 2: Action: ClimbDown( b, x)
-       precond: On(s,b) And On(b,Floor) And Box(b) And Shakey(s) And On(x,Floor) And ~At(b,x) And ~At(s,x)
-       effect: ~On(s,b) And On(s,Floor) And At(s,x)
+       precond: On(Shakey,b) And On(b,Floor) And Box(b) 
+       effect: ~On(Shakey,b) And On(Shakey,Floor) 
 3: Action: ClimbUp (x,b)
-       precond: On(x,b) And On(b,Floor) And ~On(s,b) And On(s,Floor) And Shakey(s) And Box(b)
-       effect: On(s,b) And At(s,x) And ~On(s,Floor)
+       precond:  On(b,Floor) And ~On(Shakey,b) And On(Shakey,Floor) And  Box(b)
+       effect: On(Shakey,b) And  ~On(s,Floor)
 
 4: Action: turnOn( s,b)
-       precond: At(b,Switch) And On(s,b) And ~IsOn(Switch) And Shakey(s) And Box(b) And Switch
+       precond: At(Shakey,x) And At(Switch,x) And On(Shakey,b) And ~IsOn(Switch) And Box(b) 
        effect: IsOn(Switch)
 5: Action: turnOff( s,b) 
-       precond: At(b,Switch) And On(s,b) And IsOn(Switch) And Shakey(s) And Box(b) And Light(Switch)
+       precond: At(Switch,x) And At(Shakey,x) And On(Shakey,b) And IsOn(Switch)  And Box(b) 
        effect: ~IsOn(Switch)
 
 ** 10.4 Staterep:
-Init( In(Shakey,R3)  And In(Door3,R3) And In(Door3,Coridor) And In(Door1,Coridor)
-      And In(Door1,R1) And In(Door2,Coridor) And In(Door2,R2) And  In(Box2,R1) And Room(R3) And Room(R1)) 
-Goal ( At(Box2,R1)
-Plan: [ Go(Shakey,Door3), Go(Shakey,Door1),Go(Shakey,Box2),Push(Box2,Box2,Door1,R1), Push(Box2,Box2,Door2,Cooridor),
-        Push(Box2,Box2,Door2,R2)]
+Init( In(Shakey,R3)  And At(Shakey, locS) And In(Door3,R3) And In(Door3,Coridor) And 
+      In(Door1,Coridor) And In(Door1,R1) And In(Box2,R1) And In(Box1,R1) And In(Box3,R1) And In(Box4,R1)
+      At(Box1,locB1) And At(Box2,locB2) And ~At(Box2,locBy) And At(Box3,locB3) And At(Box4,locB4) And
+      CanPush(Box1) And CanPush(Box2) And CanPUsh(Box3) And
+      In(Door2,Coridor) And In(Door2,R2)   
+      
+      
+Goal ( In(Box2,R2) And At(Box2,locBy) 
+Plan: [ Go(locS,Door3), Go(Doors3,Door1),Go(Door1,locB2),Push(Box2,locB2,Door1,R1), Push(Box2,Door1,Door2,Cooridor),
+        Push(Box2,Door2,locBy,R2)]
 
 
 
@@ -67,7 +72,7 @@ understand each other.
 ⇒ Understands (x, y).
 **** answer
 Since x and y  are universal quantifiers. We can use substitution to show 
-that x and y can be substituted for to yield the equivalent of both statements 
+that x and y can be substituted for , to yield the equivalent of both statements 
 Understand(x,y) and Understand(y,x) .  So b entails a.   
 *** c. Translate into first-order logic the following sentences:
 **** (i) Understanding leads to friendship.
@@ -108,30 +113,46 @@ only the axioms given here, not anything else you may know about arithmetic.) Sh
 only the steps that leads to success, not the irrelevant steps.
 *** ANSWER
 7 <= 3 + 9
-S(7) theta((w/7),(x/0),(y,9),(z/3))
-S(2)
-7 <= 9   ∧ 0 <= 3 ⇒ 7 + 0 <= 9 + 3
-S(4)  theta(x/7)
-7 <= 7 + 0
-
-S(6)
-theta(x,9),(y,3)
-9 + 3 <= 3 + 9 
-
-S(8) 
-theta(((7+0)/x), ((9+3)/y), ((3+9)/z))
-7+0 <= (9 + 3) ∧ (9 + 3)<= (3 + 9) ⇒ 7+0 <=  3+9
-
-
 S(8)
-theta((7/x), ((7+0)/y), ((3+9/z)))
-7 <= (7 + 0) ∧ (7 + 0)<= (3 + 9) ⇒ 7 <= 3 + 9
+theta((x1/7+0), (y1/7), (z1/(3+9)))
+7+ 0 <= 7  ∧  7 <=  (3 + 9) ⇒ (7+0) <= 3 + 9
+
+S(6) theta((x2/3), (y2/9))
+9 + 3 <= 3 + 9
+
+S(7) theta((w3/7),(x3/0),(y3,9),(z3/3))
+7 <= 9  ∧ 0 <= 3 ⇒ 7 + 0 <= 9 + 3
+
+S(1)
+0 <= 3
+S(2)
+7 <= 9
 
 ** b. Give a forward-chaining proof of the sentence 7 ≤ 3 + 9. Again, show only the steps
 that lead to success.
 *** ANSWER
-7 <= 3 + 9
-S(6)
-S(4)
+Prove: 7 <= 3 + 9
+
 S(7)
+7 <= 9   ∧ 0 <= 3 ⇒ 7 + 0 <= 9 + 3 
+
+S(6)
+theta(x3/9),(y3/3)
+9 + 3 <= 3 + 9 
+
+S(4)  theta(x4/7)
+7 <= 7 + 0
+
+S(8) 
+theta((x2/(7+0)), (y2/(9+3)), (z2/(3+9)))
+7+0 <= (9 + 3) ∧ (9 + 3)<= (3 + 9) ⇒ 7+0 <=  3+9
+
 S(8)
+theta((x1/7), (y1/(7+0)), (z1/(3+9)))
+7 <= (7 + 0) ∧ (7 + 0)<= (3 + 9) ⇒ 7 <= 3 + 9
+
+
+7 <= 3 + 9  DONE
+
+
+

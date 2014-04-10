@@ -1,0 +1,154 @@
+			      ___________
+
+			       PROBLEMS7
+
+			       N-Critser
+			      ___________
+
+
+			    <2014-04-08 Tue>
+10.4
+===========
+
+1.1 Answer
+~~~~~~~~~~
+
+  1:Action: Go( x,y,r)
+  	 precond: In(x,r) And In(y,r) And At(Shakey,x)
+         effect: ~At(Shakey,x) And At(Shakey,y)
+
+  2: Action: Push( b,x,y,r)
+          precond: Box(b) And CanPush(b) And In(b,r) And In(Shakey,r)
+                   And At(b,x) And At(Shakey,x)
+	 effect: At(Shakey,y) And At(b,y) And ~At(Shakey,x) And ~At(b,x)
+
+  3: Action: ClimbDown( b, x)
+         precond: On(Shakey,b) And On(b,Floor) And Box(b)
+	 effect: ~On(Shakey,b) And On(Shakey,Floor)
+
+  4: Action: ClimbUp (x,b)
+	 precond: On(b,Floor) And ~On(Shakey,b) And On(Shakey,Floor) And Box(b)
+	 effect: On(Shakey,b) And ~On(s,Floor)
+
+  5: Action: turnOn( s,b)
+         precond: At(Shakey,x) And At(Switch,x) And
+         On(Shakey,b) And ~IsOn(Switch) And Box(b)
+	 effect: IsOn(Switch)
+	 
+  6: Action: turnOff( s,b)
+	 precond: At(Switch,x) And At(Shakey,x)
+         And On(Shakey,b) And IsOn(Switch) And Box(b)
+	 effect: ~IsOn(Switch)
+
+10.4 Staterep:
+~~~~~~~~~~~~~~~~~~
+
+  Init( In(Shakey,R3) And At(Shakey, locS) And In(Door3,R3) And
+        In(Door3,Coridor) And In(Door1,Coridor) And In(Door1,R1) And
+        In(Box2,R1) And In(Box1,R1) And In(Box3,R1) And In(Box4,R1)
+        At(Box1,locB1) And At(Box2,locB2) And ~At(Box2,locBy) And
+        At(Box3,locB3) And At(Box4,locB4) And CanPush(Box1) And
+        CanPush(Box2) And CanPUsh(Box3) And In(Door2,Coridor) And
+        In(Door2,R2)
+
+
+  Plan [( In(Box2,R2) And At(Box2,locBy) Plan: [ Go(locS,Door3),
+  Go(Doors3,Door1),Go(Door1,locB2),Push(Box2,locB2,Door1,R1),
+  Push(Box2,Door1,Door2,Cooridor), Push(Box2,Door2,locBy,R2)]
+
+8.11
+==============
+
+a. Translate into good, natural English (no xs or ys!):
+-------------------------------------------------------------
+  ∀ x, y, l SpeaksLanguage (x, l) ∧ SpeaksLanguage (y, l) ⇒
+  Understands(x, y) ∧ Understands(y, x).
+  
+answer
+  All people that speak the same language, understand each other.
+
+b. Explain why this sentence is entailed by the sentence
+--------------------------------------------------------------
+  ∀ x, y, l SpeaksLanguage (x, l) ∧ SpeaksLanguage (y, l) ⇒
+  Understands(x, y).
+
+answer
+  Since x and y are universal quantifiers. We can use substitution to
+  show that x and y can be substituted for , to yield the equivalent of
+  both statements Understand(x,y) and Understand(y,x) .  So b entails a.
+
+
+c. Translate into first-order logic the following sentences:
+------------------------------------------------------------------
+ (i) Understanding leads to friendship.
+answer
+    ∀ x, y Understands(x,y) ∧ Understand(y,x) ⇒ Friendship(x,y) ∧
+    Friendship(y,x)
+
+(ii) Friendship is transitive.
+answer
+    ∀ x, y , z Friendship(x,y) ∧ Friendship(y,z) ⇒ Friendship(x,z)
+    Remember to define all predicates, functions, and constants you use.
+
+9.3
+==========
+  B and C are legit, A is not legit a. (x/Everest) --- no legit, since
+  Everest appears in the KB b. (x/Kilimanjaro) --- legit
+  c. (x/Kilimanjaro), (x,BenNevis) --- legit
+
+
+9.9
+==========
+
+  Suppose you are given the following axioms:
+  1. 0 ≤ 3.
+  2. 7 ≤ 9.
+  3. ∀ x x ≤ x.
+  4. ∀ x x ≤ x + 0.
+  5. ∀ x x + 0 ≤ x.
+  6. ∀ x, y x + y ≤ y + x.
+  7. ∀ w, x, y, z w ≤ y ∧ x ≤ z ⇒ w + x ≤ y + z.
+  8. ∀ x, y, z x ≤ y ∧ y ≤ z ⇒ x ≤ z
+
+
+4.1 a. Give a backward-chaining proof of the sentence 7 ≤ 3 + 9. 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4.1.1 ANSWER
+------------
+
+  7 <= 3 + 9 S(8) theta((x1/7+0), (y1/7), (z1/(3+9))) 7+ 0 <= 7 ∧ 7 <=
+  (3 + 9) ⇒ (7+0) <= 3 + 9
+
+  S(6) theta((x2/3), (y2/9))
+  9 + 3 <= 3 + 9
+
+  S(7) theta((w3/7),(x3/0),(y3,9),(z3/3))
+  7 <= 9 ∧ 0 <= 3 ⇒ 7 + 0 <= 9 + 3
+
+  S(1)
+  0 <= 3
+
+  S(2)
+  7 <= 9
+
+4.2 b. Give a forward-chaining proof of the sentence 7 ≤ 3 + 9.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+4.2.1 ANSWER
+------------
+
+  Prove: 7 <= 3 + 9
+
+  S(7) 7 <= 9 ∧ 0 <= 3 ⇒ 7 + 0 <= 9 + 3
+
+  S(6) theta(x3/9),(y3/3) 9 + 3 <= 3 + 9
+
+  S(4) theta(x4/7) 7 <= 7 + 0
+
+  S(8) theta((x2/(7+0)), (y2/(9+3)), (z2/(3+9))) 7+0 <= (9 + 3) ∧ (9 +
+  3)<= (3 + 9) ⇒ 7+0 <= 3+9
+
+  S(8) theta((x1/7), (y1/(7+0)), (z1/(3+9))) 7 <= (7 + 0) ∧ (7 + 0)<= (3
+  + 9) ⇒ 7 <= 3 + 9
+
+
+  7 <= 3 + 9 DONE
