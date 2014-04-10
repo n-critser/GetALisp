@@ -131,7 +131,14 @@ theta((7/x), ((7+0)/y), ((3+9/z)))
 that lead to success.
 *** ANSWER
 7 <= 3 + 9
-S(6)
+S(6) 
+theta(x,9),(y,3)
+9 + 3 <= 3 + 9 
+
 S(4)
+S(4)  theta(x/7)
+7 <= 7 + 0
+
 S(7)
+
 S(8)
